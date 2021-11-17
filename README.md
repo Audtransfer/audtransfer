@@ -22,5 +22,5 @@ Apps that we provied transfer:
 - Spotify :white_check_mark: (Done)
 - Dezzer: 💻 (Working/Coding)
 - YT Music: 💻 (Working/Coding)
-- Tidal: 🔒 (Future Work)
-- Amazon Prime Music : 🔒 (Future Work)
+- Tidal: 🔒 (Future Work, 2022)
+- Amazon Prime Music : 🔒 (Future Work, 2022)
