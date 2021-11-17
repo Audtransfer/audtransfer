@@ -19,7 +19,7 @@ this happens with couples clicks and selects of your playslits, liked tracks or 
 ## Features
 Apps that we provied transfer:
 
-- Spotify :white_check_mark:
+- Spotify :white_check_mark: (Done)
 - Dezzer: 💻 (Working/Coding)
 - YT Music: 💻 (Working/Coding)
 - Tidal: 🔒 (Future Work)
