@@ -1,9 +1,4 @@
 import './App.sass';
+import Routes from './routes/Routes';
 
-export default function App() {
-  return (
-    <div className="App">
-			Work In Progress...
-    </div>
-  );
-}
+export default function App() { return <Routes /> }
