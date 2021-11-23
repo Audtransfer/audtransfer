@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import * as ROTAS from "./constants"
 import Home from "../pages/Home";
 import Spotify from "../Apis/Spotify"
-import SpotifyImport from "../Apis/Spotify/components/Import/SpotifyImport";
-import SpotifyExport from "../Apis/Spotify/components/Export/SpotifyExport";
+import SpotifyImport from "../Spotify/components/Import/SpotifyImport";
+import SpotifyExport from "../Spotify/components/Export/SpotifyExport";
 
 export default function Routes() {
 	return (
