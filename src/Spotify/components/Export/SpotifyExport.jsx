@@ -54,15 +54,3 @@ export default function SpotifyExport() {
 		)}
 	</>)
 }
-
-// {data.items && data.items.map((individual, index) => (
-// 	<div key={index}>
-// 		<h4>{individual.name}</h4>
-// 		<p>Owner: {individual.owner.id}</p>
-// 		<label>
-// 			<input type="checkbox"/>
-// 			<span>Get tracks</span>
-// 		</label>
-// 		<hr />
-// 	</div>
-// ))}

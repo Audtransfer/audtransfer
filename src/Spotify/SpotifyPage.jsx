@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const clientId = "" //TODO
+const clientId = process.env.REACT_APP_CLIENT_ID;
 
 const spotifyAuthEndpoint = "https://accounts.spotify.com/authorize";
 const redirect = "http://localhost:3000/spotify";
