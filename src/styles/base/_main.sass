@@ -1,0 +1,20 @@
+// @import "./_vars"
+body
+	min-height: -webkit-fill-available // bug no iPhone *
+	margin: 0
+	padding: 0
+	-webkit-font-feature-settings: "kern" 1
+	-moz-font-feature-settings: "kern" 1
+	-o-font-feature-settings: "kern" 1
+	font-feature-settings: "kern" 1
+	font-kerning: normal
+	font: $base-font-weight #{$base-font-size}/#{$base-line-height} $base-font-family
+	color: $text-color
+	background: $background-color
+	display: flex
+	min-height: 100vh
+	flex-direction: column
+	justify-content: space-between
+	box-sizing: border-box
+	*
+		box-sizing: inherit
