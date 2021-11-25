@@ -1,4 +1,4 @@
-// import "../../styles/pages/_success.sass";
+import "./_success.sass";
 
 export default function SucessPage() {
 	return (
