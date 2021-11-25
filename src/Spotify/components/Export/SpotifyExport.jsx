@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import "../../../styles/pages/SpotifyPage.sass"
+// import "../../../styles/pages/_spotifyPage.sass"
 import TrackLists from "./TrackLists";
 
 const userEndpoint = "https://api.spotify.com/v1/me";
