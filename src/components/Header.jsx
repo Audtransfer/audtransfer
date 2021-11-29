@@ -1,7 +1,7 @@
 export default function Header() {
 	return (
-		<div>
-			header
-		</div>
+		<>
+			<h1>Audtransfer</h1>
+		</>
 	)
 }
