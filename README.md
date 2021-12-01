@@ -16,11 +16,15 @@ this happens with couples clicks and selects of your playslits, liked tracks or 
 - Enter your new app account
 - ✨ The magic Happens ✨   
 
-## Features
+## Roadmap
+Our app:
+ - Visual Identity: ✅ (Done)
+ - Domain: ✅ (Done)
+ - Website Visual: 💻 (Working/Coding)
+
 Apps that we provied transfer:
 
-<!-- - Spotify :white_check_mark: (Done) -->
-- Spotify 💻 (Working/Coding)
+- Spotify ✅ (Done)
 - Dezzer: 💻 (Working/Coding)
 - YT Music: 💻 (Working/Coding)
 - Tidal: 🔒 (Future Work, 2022)
