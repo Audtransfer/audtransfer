@@ -3,7 +3,7 @@
 ##### _The open-source and free option for changing streaming plattaforms and carrying yours tracks_
 
 ###### The Undergraduate Thesis of some folks from Santos, SP - Brazil
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/brunomistro/audtransfer/graphs/commit-activity) [![Website cv.lbesson.qc.to](https://img.shields.io/website?down_color=lightgrey&down_message=offilne&up_color=green&up_message=online&url=https%3A%2F%2Faudtransfer.com](#) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/brunomistro/audtransfer/pulls)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/brunomistro/audtransfer/graphs/commit-activity) [![Website cv.lbesson.qc.to](https://img.shields.io/website?down_color=lightgrey&down_message=offilne&up_color=green&up_message=online&url=https%3A%2F%2Faudtransfer.com)](#) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/brunomistro/audtransfer/pulls)
 
 Audtransfer is an app that is capable of transfering a playlist between differents music streaming plataforms,
 that with an beatiful visual interface that helps guide through the transfer process,
