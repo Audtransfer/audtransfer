@@ -1,7 +1,9 @@
+import "./_footer.sass"
+
 export default function Footer() {
-	return (
-		<div>
-			{/* <p>footer</p> */}
-		</div>
-	)
+  return (
+    <footer className="site-footer">
+      <p>&#169; 2021 Audtransfer. All rights reserved.</p>
+    </footer>
+  )
 }

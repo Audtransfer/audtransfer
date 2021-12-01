@@ -28,7 +28,7 @@ export default function PlaylistTranfer({playlist}) {
 
 	return (
 		<>
-			<button onClick={() => setData(playlist)}>Transfer this playlist</button>
+			<button onClick={() => setData(playlist)} className="button-submit">Transfer this playlist</button>
 		</>
 	)
 }

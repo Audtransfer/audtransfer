@@ -58,20 +58,19 @@ export default function SpotifyPage() {
 
 	return (
 		<div className="page">
-			spotifyPage
 			{!access_token && (<button onClick={handleLogin}>login to spotify</button>)}
-			<div>
+			<>
 				{importFlag &&
 					<Link to={{pathname: "/spotify/import", state: {access_token}}}>
-						<button>Import a playlist</button>
+						<button>Start Import</button>
 					</Link>
 				}
 				{exportFlag && 
 					<Link to={{pathname: "/spotify/export", state: {access_token}}}>
-						<button>Export a playlist</button>
+						<button>Start Export</button>
 					</Link>
 				}
-			</div>
+			</>
 		</div>
 	)
 }

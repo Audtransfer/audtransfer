@@ -1,0 +1,152 @@
+.page-content
+  padding-top: $spacing-unit
+  padding-bottom: $spacing-unit
+
+  +media-query($on-laptop)
+    padding-top: $spacing-unit / 2
+    padding-bottom: $spacing-unit / 2
+
+.page-heading
+  color: $brand-color
+  display: inline-block
+  font-size: 1.8em
+  font-weight: bold
+  letter-spacing: 1.1px
+  
+.page-grid
+  word-break: break-word
+  
+  +media-greater($menu-breakpoint)
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+
+    > *
+      flex: 1 1 auto
+
+    .sidebar, .filtro-lateral
+      flex: 0 0 18em
+      margin-left: $spacing-unit * 2
+      // margin-left: $spacing-unit
+
+    .filtro-lateral
+      order: 2
+
+.wrapper
+  max-width: $content-width
+  margin-left: auto
+  margin-right: auto
+  padding-left: $spacing-unit
+  padding-right: $spacing-unit
+
+  +media-query($on-laptop)
+    padding-left: $spacing-unit / 2
+    padding-right: $spacing-unit / 2
+
+.hero
+  @extend .page-content, .wrapper
+  background-color: #038C4C
+  color: #fff
+  border-radius: 8px
+
+.icon
+  display: inline-block
+  vertical-align: middle
+
+  + *
+    vertical-align: middle
+    margin-left: .5em
+
+  > svg
+    line-height: 0
+    display: block
+    vertical-align: text-top
+    color: inherit
+    width: 1em
+    height: 1em
+
+    circle, rect, polygon, path
+      fill: currentcolor
+
+  &-medium
+    > svg
+      width: 24px
+      height: 24px
+  &-large
+    > svg
+      width: 64px
+      height: 64px
+
+.btn
+  @extend button
+
+.video-container, .embed
+  position: relative
+  height: 0
+  padding-bottom: 56%
+
+  &-pdf
+    width: 80vw
+    max-width: 1200px
+    padding-bottom: 63%
+
+    @media screen and (min-aspect-ratio: 8/5)
+      width: 120vh
+
+  iframe, object, embed, > *
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    max-width: 100%
+    max-height: 100%
+
+.img-fit
+  width: 100%
+  height: 100%
+  object-fit: cover
+
+.hook
+  display: table
+  height: 1.8em
+  line-height: 1.8em
+  text-transform: uppercase
+  font-size: 0.85em
+  color: $brand-color
+
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+
+.loader 
+  &:after
+    content: attr(data-loading-text)
+    font-size: 1.2em
+    font-weight: bold
+    text-transform: uppercase
+  &:before
+    content: ''
+    display: inline-block
+    vertical-align: middle
+    margin-right: $spacing-unit / 3
+    border: 5px solid #cccccc
+    border-top: 5px solid $brand-color
+    border-radius: 50%
+    width: 50px
+    height: 50px
+    animation: spin 1s linear infinite
+  
+  &-mini 
+    &::before
+      width: 10px
+      height: 10px
+      border-width: 2px
+
+@keyframes spin 
+  0%
+    transform: rotate(0deg)
+    
+  100%
+    transform: rotate(360deg)

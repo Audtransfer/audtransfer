@@ -1,0 +1,147 @@
+%form-basis
+  padding: 10px
+  line-height: inherit
+  border: 1px solid $grey-color
+  border-radius: 4px
+  background-color: #fff
+  transition: 0.2s ease-in-out
+  backface-visibility: hidden
+  outline: none
+  overflow: visible // normalize.css
+  &:focus
+    border-color: $grey-color-dark
+
+%form-inputs
+  letter-spacing: 1px
+  width: 100%
+
+button, input, optgroup, select, textarea
+  font: inherit
+  margin: 0
+
+button, select
+  text-transform: none
+
+button,
+html [type="button"],
+[type="reset"],
+[type="submit"]
+  @extend %form-basis
+  @extend %transition
+  -webkit-appearance: none
+  display: inline-block
+  padding-left: 1em
+  padding-right: 1em
+  text-align: center
+  color: #fff
+  background-color: $brand-color
+  border: 1px solid $brand-color
+  cursor: pointer
+
+  &:hover, &:focus, &:active
+    text-decoration: none
+    color: #fff
+    outline: none
+    box-shadow: 0 3px 6px 0 rgba(black, .4)
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner
+  border-style: none
+  padding: 0
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring
+  outline: 1px dotted ButtonText
+
+fieldset
+  -webkit-margin-start: 0
+  -webkit-margin-end: 0
+  -webkit-padding-before: 0
+  -webkit-padding-start: 0
+  -webkit-padding-end: 0
+  -webkit-padding-after: 0
+  padding: 0 0 $spacing-unit
+  border: none
+
+// normalize.css
+legend
+  box-sizing: border-box
+  color: inherit
+  display: table
+  max-width: 100%
+  padding: 0
+  white-space: normal
+
+progress
+  display: inline-block
+  vertical-align: baseline
+
+input
+  &:not([type='checkbox']),
+  &:not([type='radio'])
+    @extend %form-basis
+    @extend %form-inputs
+
+select
+  @extend %form-basis
+  @extend %form-inputs
+  -webkit-appearance: none
+  -moz-appearance: none
+  background:
+      image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAACNuAAAjbgBMMyg7QAAABl0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4xOdTWsmQAAAEsSURBVEhLxdM9TgJhGMRxNFETExNbGiot5AQcg1JLKy/ADbgIhaUX8ACW1BZ0xoKaxE5dZzbZzQP8lw9ZHyf5NQPMm33Ddoqi+BdYZsAyA5YZsMyAZQYsM2BZaSO0a1haW6Ftw9JCzuRiTydShrYNSwsZynRPAylD24alhRzLk3yLP9jkUybi35ShbcPSVnIjbxIPIa/Skzq0bVjaSvwEt7KQeFD0JQ9yJHVo27A0iAfH0nTlj3IqS6Ftw9Ia0pUXiQfaTK5lLbRtWNqGXMlc4sEjqf9QMbRtWNqW3MuH+Nqf5VwwtG1Y2pb4IL9i79J30RTaNixth1zKneAVV6Ftw9J2zNKrQ6Ftw9LaCO1WsLRDQ5sRlhUKfe83sMyAZQYsM2CZAcsMWP69ovMD52ZhuXhZ0WMAAAAASUVORK5CYII=')
+      repeat: no-repeat
+      position: 100% 50%
+      size: 30px
+  padding-right: $spacing-unit
+  max-width: 100%
+
+// normalize.css
+[type="checkbox"], [type="radio"]
+  box-sizing: border-box
+  padding: 0
+  width: auto!important
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button
+  height: auto
+[type="search"]
+  -webkit-appearance: textfield
+  outline-offset: -2px
+[type="search"]::-webkit-search-cancel-button,
+[type="search"]::-webkit-search-decoration
+  -webkit-appearance: none
+::-webkit-file-upload-button
+  -webkit-appearance: button
+  font: inherit
+
+label[for]
+  display: block
+
+textarea
+  @extend %form-basis
+  @extend %form-inputs
+  overflow: auto // normalize.css
+  resize: vertical
+
+\::-webkit-input-placeholder
+  color: $grey-color
+\:-moz-placeholder
+  color: $grey-color
+\::-moz-placeholder
+  color: $grey-color
+\:-ms-input-placeholder
+  color: $grey-color
+\:focus::-webkit-input-placeholder
+  -webkit-transition: 0.5s 0.5s ease
+  transition: 0.5s 0.5s ease
+  opacity: 0
+
+.honeypot
+  display: none
+
+.fields
+  input, textarea
+    width: 100%

@@ -1,0 +1,48 @@
+.status
+  padding-bottom: 0
+  margin-top: 60px
+
+  &__content
+    padding: 7.5px 15px
+    background-color: #F2F2F2
+    border-left: 6px solid #9c9c9c
+    text-align: center
+
+  &__title
+    font-weight: bold
+
+.error .status
+
+  &__content
+    border-left-color: orangered
+
+    .btn
+      border-color: orangered
+      background-color: orangered
+
+  &__title
+    color: orangered
+
+.warning .status
+
+  &__content
+    border-left-color: goldenrod
+
+    .btn
+      border-color: goldenrod
+      background-color: goldenrod
+
+  &__title
+    color: goldenrod
+
+.success .status
+
+  &__content
+    border-left-color: forestgreen
+
+    .btn
+      border-color: forestgreen
+      background-color: forestgreen
+
+  &__title
+    color: forestgreen

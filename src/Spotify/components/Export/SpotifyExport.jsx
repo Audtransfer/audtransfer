@@ -24,14 +24,14 @@ export default function SpotifyExport() {
 
 	return (<>
 		{access_token && (
-			<div className="export">
+			<div className="export wrapper">
 				{user && (
 					<div className="user">
-						<h3 className="user_name">Hi, {user.display_name}</h3>
-						<p className="user_email">{user.email}</p>
 						{(user.images && user.images.length > 0) && (
 							<img className="user_img" src={user.images[0].url} alt="Profile"/>
 						)}
+						<h3 className="user_name">Hi, {user.display_name}</h3>
+						<p className="user_email">{user.email}</p>
 					</div>
 				)}
 
