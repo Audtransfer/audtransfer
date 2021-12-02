@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "./_spotifyPage.sass"
 
 const clientId = process.env.REACT_APP_CLIENT_ID;
 
@@ -29,7 +28,6 @@ export default function SpotifyPage() {
 			"&redirect_uri=" + redirect + 
 			"&scope=" + scopesUrl + 
 			"&response_type=token&show_dialog=true";
-		console.log(clientId);
 	}
 
 	//SPOTIFY ACCESS

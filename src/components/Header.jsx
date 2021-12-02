@@ -1,5 +1,4 @@
 import logo from "../assets/NameLogo.png"
-import "./_header.sass"
 
 export default function Header() {
 	return (
