@@ -1,33 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const clientId = process.env.REACT_APP_CLIENT_ID;
-
-const spotifyAuthEndpoint = "https://accounts.spotify.com/authorize";
-const redirect = "http://localhost:3000/spotify";
-
-const scopes = [
-	"user-read-private",
-	"user-read-email",
-	"user-library-read",
-	"playlist-read-collaborative",
-	"playlist-read-private",
-	"playlist-modify-private",
-	"playlist-modify-public",
-];
-const scopesUrl = scopes.join("%20");
-
 export default function SpotifyPage() {
 	const [importFlag, setImportFlag] = useState(null)
 	const [exportFlag, setExportFlag] = useState(null)
-
+	
 	const handleLogin = () => {
-		window.location = 
-			spotifyAuthEndpoint + 
-			"?client_id=" + clientId + 
-			"&redirect_uri=" + redirect + 
-			"&scope=" + scopesUrl + 
-			"&response_type=token&show_dialog=true";
+		window.location = "http://localhost:5000/loginSpotify"
 	}
 
 	//SPOTIFY ACCESS
