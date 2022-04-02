@@ -1,13 +1,19 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+//PAGES
 import * as ROTAS from "./constants"
+import Page404 from "../pages/Page404/Page404";
 import Home from "../pages/Home";
 import Success from "../pages/Success";
-import Spotify from "../Spotify"
-import SpotifyImport from "../Spotify/components/Import/SpotifyImport";
-import SpotifyExport from "../Spotify/components/Export/SpotifyExport";
-import Page404 from "../pages/Page404/Page404";
-import SpotifyProvider from "../contexts/Spotify";
+
+//CONTEXTS
 import TransferProvider from "../contexts/Transfer";
+import SpotifyProvider from "../contexts/Spotify";
+
+//SPOTIFY
+import Spotify from "../Spotify"
+import SpotifyExport from "../Spotify/pages/SpotifyExport";
+import SpotifyImport from "../Spotify/pages/SpotifyImport";
 
 export default function Routes() {
 	return (
@@ -19,11 +25,9 @@ export default function Routes() {
 
 					<SpotifyProvider>
 						<Route exact path={ROTAS.SPOTIFY} component={Spotify}/>
-						<Route exact path={ROTAS.SPOTIFY_IMPORT} component={SpotifyImport}/>
 						<Route exact path={ROTAS.SPOTIFY_EXPORT} component={SpotifyExport}/>
+						<Route exact path={ROTAS.SPOTIFY_IMPORT} component={SpotifyImport}/>
 					</SpotifyProvider>
-
-
 				</TransferProvider>
 				
 				<Route path="" component={Page404}/>

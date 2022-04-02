@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSpotifyContext } from "../../../contexts/Spotify";
-import TrackLists from "./TrackLists";
+import { useSpotifyContext } from "../../contexts/Spotify";
+// import TrackLists from "./TrackLists";
 
 const userEndpoint = "https://api.spotify.com/v1/me";
-const userPlaylistEndpoint = "https://api.spotify.com/v1/me/playlists";
+const userPlaylistEndpoint = `${userEndpoint}/playlists`;
 
 export default function SpotifyExport() {
 	const { accessToken } = useSpotifyContext();
@@ -14,11 +14,11 @@ export default function SpotifyExport() {
 
 	useEffect(() => {
 		axios.get(userEndpoint, {headers:{Authorization: "Bearer " + accessToken}})
-		.then(response => {setUser(response.data)})
-		.catch(err => { console.log(err) });
-
-		axios.get(userPlaylistEndpoint, {headers:{Authorization: "Bearer " + accessToken}})
-		.then(response => {setData(response.data)})
+		.then(response => {
+			setUser(response.data);
+			axios.get(userPlaylistEndpoint, {headers:{Authorization: "Bearer " + accessToken}})
+			.then(response => {setData(response.data)})
+		})
 		.catch(err => { console.log(err) });
 	},[accessToken])
 
@@ -35,7 +35,6 @@ export default function SpotifyExport() {
 					</div>
 				)}
 
-
 				<select 
 					onChange={e => setSelectedPlaylist(e.currentTarget.value)} 
 					value={selectedPlaylist} defaultValue=""
@@ -46,9 +45,9 @@ export default function SpotifyExport() {
 					))}
 				</select>
 
-				{(selectedPlaylist && selectedPlaylist.length > 0) && 
+				{/* {(selectedPlaylist && selectedPlaylist.length > 0) && 
 					<TrackLists id={selectedPlaylist}/>
-				}
+				} */}
 			</div>
 		)}
 	</>)

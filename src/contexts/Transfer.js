@@ -4,7 +4,7 @@ const TransferContext = createContext();
 TransferContext.displayName = "Transfer";
 
 export default function TransferProvider({children}) {
-	const [dataTransfer, setDataTransfer] = useState();
+	const [dataTransfer, setDataTransfer] = useState(null);
 
 	return (
 		<TransferContext.Provider
