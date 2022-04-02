@@ -4,35 +4,20 @@ const SpotifyContext = createContext();
 SpotifyContext.displayName = "Spotify";
 
 export default function SpotifyProvider({ children }) {
-	const [accessToken, setAccessToken] = useState()
-	const [data, setData] = useState()
+	const [accessToken, setAccessToken] = useState();
 
 	return (
 		<SpotifyContext.Provider
-			value={{
-				accessToken,
-				setAccessToken,
-				data,
-				setData
-			}}
+			value={{ accessToken, setAccessToken }}
 		>
 			{children}
 		</SpotifyContext.Provider>
 	)
 }
 
+//TODO Hooks
 export function useSpotifyContext() {
-	const {
-		accessToken,
-		setAccessToken,
-		data,
-		setData
-	} = useContext(SpotifyContext)
+	const { accessToken, setAccessToken } = useContext(SpotifyContext)
 
-	return {
-		accessToken,
-		setAccessToken,
-		data,
-		setData
-	}
+	return { accessToken, setAccessToken }
 }

@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTransferContext } from "../contexts/Transfer";
+import { useSpotifyContext } from "../contexts/Spotify"
 
 export default function SpotifyPage() {
-	const [importFlag, setImportFlag] = useState(null)
-	const [exportFlag, setExportFlag] = useState(null)
+	// const [importFlag, setImportFlag] = useState(null)
+	// const [exportFlag, setExportFlag] = useState(null)
+	const [flag, setFlag] = useState(null)
+	const { data } = useTransferContext()
+	const { setAccessToken } = useSpotifyContext()
 	
 	const handleLogin = () => {
 		window.location = "http://localhost:5000/loginSpotify"
@@ -23,29 +28,35 @@ export default function SpotifyPage() {
 
 	useEffect(() => {
 		if(!access_token) return
-		if(!sessionStorage.getItem('playlisToTransfer')) {
-			setExportFlag(true)
-			setImportFlag(false)
+		setAccessToken(access_token)
+		
+		if(!data) {
+			setFlag(false)
 		}
 		else {
-			setExportFlag(false)
-			setImportFlag(true)
+			setFlag(true)
 		}
-	}, [access_token])
 
+	}, [access_token, setAccessToken, data])
+
+
+	//TODO resolver bug de flags e btns
 	return (
 		<div className="page">
 			{!access_token && (<button onClick={handleLogin}>login to spotify</button>)}
 			<>
-				{importFlag &&
-					<Link to={{pathname: "/spotify/import", state: {access_token}}}>
-						<button>Start Import</button>
-					</Link>
-				}
-				{exportFlag && 
-					<Link to={{pathname: "/spotify/export", state: {access_token}}}>
-						<button>Start Export</button>
-					</Link>
+				{!flag ? 
+					(
+						<Link to="/spotify/export">
+							<button>Start Export</button>
+						</Link>
+					)
+					:
+					(
+						<Link to={{pathname: "/spotify/import", state: {access_token}}}>
+							<button>Start Import</button>
+						</Link>
+					)
 				}
 			</>
 		</div>
