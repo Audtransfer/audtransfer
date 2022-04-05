@@ -1,7 +1,7 @@
 export const HOME = "/";
 export const SUCCESS = "/success"
 
-//incluir 404
+//incluir 404 TODO
 
 // SPOTIFY URL'S
 export const SPOTIFY = "/spotify"
