@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSpotifyContext } from "../../contexts/Spotify";
-// import TrackLists from "./TrackLists";
+import TrackLists from "../components/Export/TrackLists";
 
 const userEndpoint = "https://api.spotify.com/v1/me";
 const userPlaylistEndpoint = `${userEndpoint}/playlists`;
@@ -45,9 +45,9 @@ export default function SpotifyExport() {
 					))}
 				</select>
 
-				{/* {(selectedPlaylist && selectedPlaylist.length > 0) && 
+				{(selectedPlaylist && selectedPlaylist.length > 0) && 
 					<TrackLists id={selectedPlaylist}/>
-				} */}
+				}
 			</div>
 		)}
 	</>)

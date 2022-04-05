@@ -49,10 +49,22 @@ export default function SpotifyPage() {
 					</Link>
 				)}
 				{importFlag && (
-					<Link to={{pathname: "/spotify/import", state: {access_token}}}>
+					<Link to="/spotify/import">
 						<button>Start Import</button>
 					</Link>
 				)}
+			</>
+			<>
+			{/* {
+				(dataTransfer === null && access_token) ? 
+					(
+						<Link to="/spotify/export">
+							<button>Start Export</button>
+						</Link>
+					) 
+					: 
+					(<p>n null</p>)
+			} */}
 			</>
 		</div>
 	)
