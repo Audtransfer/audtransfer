@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useTransferContext } from "../contexts/Transfer";
 import { useSpotifyContext } from "../contexts/Spotify"
 
 export default function SpotifyPage() {
 	const [importFlag, setImportFlag] = useState(null)
 	const [exportFlag, setExportFlag] = useState(null)
-	
-	const { dataTransfer } = useTransferContext()
+	const dataTransfer = sessionStorage.getItem('playlisToTransfer')
 	const { setAccessToken } = useSpotifyContext()
 	
 	const handleLogin = () => { window.location = "http://localhost:5000/loginSpotify" }
@@ -53,18 +51,6 @@ export default function SpotifyPage() {
 						<button>Start Import</button>
 					</Link>
 				)}
-			</>
-			<>
-			{/* {
-				(dataTransfer === null && access_token) ? 
-					(
-						<Link to="/spotify/export">
-							<button>Start Export</button>
-						</Link>
-					) 
-					: 
-					(<p>n null</p>)
-			} */}
 			</>
 		</div>
 	)

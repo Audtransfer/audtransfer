@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
-import { useTransferContext } from "../../contexts/Transfer";
 
 export default function Home() {
-	const { dataTransfer } = useTransferContext();
+	const dataTransfer = sessionStorage.getItem('playlisToTransfer');
 
 	return (
 		<div className="home">
