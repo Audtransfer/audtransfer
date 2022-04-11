@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
 
 export default function Home() {
+	const dataTransfer = sessionStorage.getItem('playlisToTransfer');
+
 	return (
 		<div className="home">
       <div className="wrapper">
-        {!sessionStorage.getItem('playlisToTransfer') ? 
-          (<p>Choose the App you want to Export:</p>) 
-        : 
-          (<p>Choose the App you want to Import:</p>)
-        }
+				<p>Choose the App you want to 
+					{
+						dataTransfer === null ? " Export:" : " Import:"
+					}
+				</p>
         <div className="options">
           <Link to="/spotify" className="spotify btn">
             Spotify

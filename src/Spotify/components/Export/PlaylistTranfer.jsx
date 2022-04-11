@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react"
-import { useHistory } from "react-router"
+import { useHistory } from "react-router";
 
-export default function PlaylistTranfer({playlist}) {
-	const [data, setData] = useState(null)
+export default function PlaylistTranfer({ selected }) {
 	const history = useHistory()
 
-	useEffect(() => {
-		if(!data) return
-
+	const handleClick = () => {
 		const playlistToTransfer = ({
-			playlistId: data.id,
-			playlistName: data.name,
-			playlistType: data.type,
-			public: data.public,
-			tracks: data.tracks.items.map(item => {
+			playlistId: selected.id,
+			playlistName: selected.name,
+			playlistType: selected.type,
+			playlistOrigin: "Spotify",
+			public: selected.public,
+			tracks: selected.tracks.items.map(item => {
 				return {
 					trackName: item.track.name,
 					artistName: item.track.artists[0].name,
@@ -22,13 +19,13 @@ export default function PlaylistTranfer({playlist}) {
 			}),
 		})
 		console.log(playlistToTransfer);
-		sessionStorage.setItem('playlisToTransfer', JSON.stringify(playlistToTransfer))
-		history.push("/")
-	}, [data, history])
+		sessionStorage.setItem('playlisToTransfer', JSON.stringify(playlistToTransfer));
+		history.push("/");
+	}
 
 	return (
 		<>
-			<button onClick={() => setData(playlist)} className="button-submit">Transfer this playlist</button>
+			<button onClick={() => handleClick()} className="button-submit">Transfer this playlist</button>
 		</>
 	)
 }

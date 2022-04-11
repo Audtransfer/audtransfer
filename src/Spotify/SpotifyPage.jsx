@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSpotifyContext } from "../contexts/Spotify"
 
 export default function SpotifyPage() {
 	const [importFlag, setImportFlag] = useState(null)
 	const [exportFlag, setExportFlag] = useState(null)
+	const dataTransfer = sessionStorage.getItem('playlisToTransfer')
+	const { setAccessToken } = useSpotifyContext()
 	
-	const handleLogin = () => {
-		window.location = "http://localhost:5000/loginSpotify"
-	}
+	const handleLogin = () => { window.location = "http://localhost:5000/loginSpotify" }
 
 	//SPOTIFY ACCESS
 	const { access_token } = getHashParams();
@@ -23,30 +24,33 @@ export default function SpotifyPage() {
 
 	useEffect(() => {
 		if(!access_token) return
-		if(!sessionStorage.getItem('playlisToTransfer')) {
-			setExportFlag(true)
-			setImportFlag(false)
-		}
-		else {
+		setAccessToken(access_token)
+
+		if(dataTransfer){
 			setExportFlag(false)
 			setImportFlag(true)
 		}
-	}, [access_token])
+		else{
+			setExportFlag(true)
+			setImportFlag(false)
+		}
+
+	}, [access_token, setAccessToken, setExportFlag, setImportFlag, dataTransfer])
 
 	return (
 		<div className="page">
 			{!access_token && (<button onClick={handleLogin}>login to spotify</button>)}
 			<>
-				{importFlag &&
-					<Link to={{pathname: "/spotify/import", state: {access_token}}}>
-						<button>Start Import</button>
-					</Link>
-				}
-				{exportFlag && 
-					<Link to={{pathname: "/spotify/export", state: {access_token}}}>
+				{exportFlag && (
+					<Link to="/spotify/export">
 						<button>Start Export</button>
 					</Link>
-				}
+				)}
+				{importFlag && (
+					<Link to="/spotify/import">
+						<button>Start Import</button>
+					</Link>
+				)}
 			</>
 		</div>
 	)

@@ -1,29 +1,29 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
-import TrackLists from "./TrackLists";
+import { useSpotifyContext } from "../../contexts/Spotify";
+import TrackLists from "../components/Export/TrackLists";
 
 const userEndpoint = "https://api.spotify.com/v1/me";
-const userPlaylistEndpoint = "https://api.spotify.com/v1/me/playlists";
+const userPlaylistEndpoint = `${userEndpoint}/playlists`;
 
 export default function SpotifyExport() {
-	const access_token = useLocation().state.access_token;
+	const { accessToken } = useSpotifyContext();
 	const [user, setUser] = useState({})
 	const [data, setData] = useState({})
 	const [selectedPlaylist, setSelectedPlaylist] = useState()
 
 	useEffect(() => {
-		axios.get(userEndpoint, {headers:{Authorization: "Bearer " + access_token}})
-		.then(response => {setUser(response.data)})
+		axios.get(userEndpoint, {headers:{Authorization: "Bearer " + accessToken}})
+		.then(response => {
+			setUser(response.data);
+			axios.get(userPlaylistEndpoint, {headers:{Authorization: "Bearer " + accessToken}})
+			.then(response => {setData(response.data)})
+		})
 		.catch(err => { console.log(err) });
-
-		axios.get(userPlaylistEndpoint, {headers:{Authorization: "Bearer " + access_token}})
-		.then(response => {setData(response.data)})
-		.catch(err => { console.log(err) });
-	},[access_token])
+	},[accessToken])
 
 	return (<>
-		{access_token && (
+		{accessToken && (
 			<div className="export wrapper">
 				{user && (
 					<div className="user">
@@ -34,7 +34,6 @@ export default function SpotifyExport() {
 						<p className="user_email">{user.email}</p>
 					</div>
 				)}
-
 
 				<select 
 					onChange={e => setSelectedPlaylist(e.currentTarget.value)} 
@@ -47,7 +46,7 @@ export default function SpotifyExport() {
 				</select>
 
 				{(selectedPlaylist && selectedPlaylist.length > 0) && 
-					<TrackLists access_token={access_token} id={selectedPlaylist}/>
+					<TrackLists id={selectedPlaylist}/>
 				}
 			</div>
 		)}
