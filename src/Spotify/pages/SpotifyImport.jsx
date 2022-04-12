@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import { useSpotifyContext } from "../../contexts/Spotify";
 
 const userEndpoint = "https://api.spotify.com/v1/me";
+const basicEndpoint = "https://api.spotify.com/v1";
 
 export default function SpotifyImport() {
   const dataTransfer = JSON.parse(sessionStorage.getItem('playlisToTransfer'));
@@ -12,16 +13,16 @@ export default function SpotifyImport() {
   const history = useHistory();
 
   useEffect(() => {
-    axios.get(userEndpoint, { headers: { Authorization: "Bearer " + accessToken }})
+    axios.get(`${basicEndpoint}/me`, { headers: { Authorization: "Bearer " + accessToken }})
 		.then(response => setUser(response.data))
 		.catch(err => console.log(err));
   }, [accessToken]);
 
   const handleCreate = () => {
     let today = new Date();
-		today = today.toLocaleString()
+		today = today.toLocaleString("pt-BR")
     axios.post(
-			`https://api.spotify.com/v1/users/${user.id}/playlists`,
+			`${basicEndpoint}/users/${user.id}/playlists`,
 			{
 				name: dataTransfer.playlistName,
 				description: `Audtransfer created this at: ${today}`,
@@ -31,11 +32,28 @@ export default function SpotifyImport() {
 		)
 		.then((response) => {
 			let tracksUrl = "";
-			const urlBase = `https://api.spotify.com/v1/playlists/${response.data.id}/tracks?uris=`;
-			dataTransfer.tracks.map((item) => {
-				return (tracksUrl += "spotify%3Atrack%3A" + item.trackId + "%2C");
-			});
-			const urlForPost = `${urlBase}${tracksUrl}`;
+			const urlBase = `${basicEndpoint}/playlists/${response.data.id}/tracks?uris=`;
+			let urlForPost = "";
+
+			if(dataTransfer.playlistOrigin === "Spotify"){
+				dataTransfer.tracks.map(item => {
+					return (tracksUrl += "spotify%3Atrack%3A" + item.trackId + "%2C");
+				});
+			}
+			else {
+				dataTransfer.tracks.map(item => {
+					axios.get(
+						`${basicEndpoint}/search?q=track%3A${item.trackName}%20artist:%3A${item.artistName}&type=track`,
+						{ headers:{Authorization: "Bearer " + accessToken} }
+					)
+					.then(response => item.trackId = response.data.tracks.items[0].id)
+					.catch(err => console.log(err));
+
+					return (tracksUrl += "spotify%3Atrack%3A" + item.trackId + "%2C");
+				})
+			}
+			
+			urlForPost = `${urlBase}${tracksUrl}`;
 
 			axios.post(urlForPost, null, {headers: { Authorization: "Bearer " + accessToken }})
 			.then(() => {
