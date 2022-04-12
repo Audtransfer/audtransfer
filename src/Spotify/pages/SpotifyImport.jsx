@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useSpotifyContext } from "../../contexts/Spotify";
 
-const userEndpoint = "https://api.spotify.com/v1/me";
 const basicEndpoint = "https://api.spotify.com/v1";
 
 export default function SpotifyImport() {
