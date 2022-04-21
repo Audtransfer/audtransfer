@@ -6,19 +6,15 @@ import Page404 from "../pages/Page404/Page404";
 import Home from "../pages/Home";
 import Success from "../pages/Success";
 
-//CONTEXTS
-import DeezerProvider from "../contexts/Deezer";
-// import SpotifyProvider from "../contexts/Spotify";
-
 //DEEZER
 import Deezer from "../Deezer";
 import DeezerExport from "../Deezer/pages/DeezerExport";
 import DeezerImport from "../Deezer/pages/DeezerImport";
 
 //SPOTIFY
-// import Spotify from "../Spotify"
-// import SpotifyExport from "../Spotify/pages/SpotifyExport";
-// import SpotifyImport from "../Spotify/pages/SpotifyImport";
+import Spotify from "../Spotify"
+import SpotifyExport from "../Spotify/pages/SpotifyExport";
+import SpotifyImport from "../Spotify/pages/SpotifyImport";
 
 
 export default function Routes() {
@@ -27,18 +23,14 @@ export default function Routes() {
 			<Switch>
 				<Route exact path={ROTAS.HOME} component={Home}/>
 				<Route exact path={ROTAS.SUCCESS} component={Success}/>
-				
-				{/* <SpotifyProvider>
-					<Route exact path={ROTAS.SPOTIFY} component={Spotify}/>
-					<Route exact path={ROTAS.SPOTIFY_EXPORT} component={SpotifyExport}/>
-					<Route exact path={ROTAS.SPOTIFY_IMPORT} component={SpotifyImport}/>
-				</SpotifyProvider> */}
-				
-				<DeezerProvider>
-					<Route exact path={ROTAS.DEEZER} component={Deezer}/>
-					<Route exact path={ROTAS.DEEZER_EXPORT} component={DeezerExport}/>
-					<Route exact path={ROTAS.DEEZER_IMPORT} component={DeezerImport}/>
-				</DeezerProvider>
+
+				<Route exact path={ROTAS.SPOTIFY} component={Spotify}/>
+				<Route exact path={ROTAS.SPOTIFY_EXPORT} component={SpotifyExport}/>
+				<Route exact path={ROTAS.SPOTIFY_IMPORT} component={SpotifyImport}/>
+
+				<Route exact path={ROTAS.DEEZER} component={Deezer}/>
+				<Route exact path={ROTAS.DEEZER_EXPORT} component={DeezerExport}/>
+				<Route exact path={ROTAS.DEEZER_IMPORT} component={DeezerImport}/>
 				
 				<Route path="" component={Page404}/>
 			</Switch>
