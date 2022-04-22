@@ -32,7 +32,7 @@ export default function SpotifyImport() {
 		.then(async response => {
 			let tracksUrl = "";
 
-			if(dataTransfer.playlistOrigin === "Spotify"){
+			if(dataTransfer.playlistOrigin === "Spotify") {
 				tracksUrl = buildTrack(dataTransfer.tracks)
 			}
 			else {
@@ -49,7 +49,7 @@ export default function SpotifyImport() {
 		.catch((err) => console.log(err));
   };
 
-	const buildTrack = (tracks) =>{
+	const buildTrack = (tracks) => {
 		let list = "";
 		tracks.forEach(item => {
 			list += "spotify%3Atrack%3A" + item.trackId + "%2C";
