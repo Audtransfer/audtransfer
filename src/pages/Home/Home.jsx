@@ -18,7 +18,7 @@ export default function Home() {
           <Link to="/deezer" className="deezer btn">
             Deezer
           </Link>
-          <Link to="#" className="ytMusic btn">
+          <Link to="/youtube" className="ytMusic btn">
             YT Music
           </Link>
         </div>
