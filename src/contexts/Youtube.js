@@ -14,7 +14,7 @@ export default function YoutubeProvider({ children }) {
 	)
 }
 
-export function useDeezerContext() {
+export function useYoutubeContext() {
 	const { accessToken, setAccessToken } = useContext(YoutubeContext)
 
 	return { accessToken, setAccessToken }
