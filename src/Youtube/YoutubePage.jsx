@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSpotifyContext } from "../contexts/Youtube"
+import { useYoutubeContext } from "../contexts/Youtube"
 
 export default function YoutubePage() {
 	const [importFlag, setImportFlag] = useState(null)
 	const [exportFlag, setExportFlag] = useState(null)
 	const dataTransfer = sessionStorage.getItem('playlisToTransfer')
-	const { setAccessToken } = useSpotifyContext()
+	const { setAccessToken } = useYoutubeContext()
 	
 	const handleLogin = () => { window.location = "http://localhost:5000/loginYoutube" }
 
