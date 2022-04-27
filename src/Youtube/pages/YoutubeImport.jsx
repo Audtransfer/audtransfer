@@ -1,3 +1,5 @@
 export default function YoutubeImport() {
-    return null;
+	return (
+		<div>YoutubeImport</div>
+	)
 }
