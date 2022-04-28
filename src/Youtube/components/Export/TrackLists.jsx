@@ -8,16 +8,16 @@ const getPlaylistEndPoint = `${youtubeEndPoint}/playlists`
 const getPlaylistItemEndPoint = `${youtubeEndPoint}/playlistItems`
 
 export default function TrackLists({ id }) {
-	const { accessToken } = useYoutubeContext();
-	const [selectedPlaylist, setSelectedPlaylist] = useState();
+  const { accessToken } = useYoutubeContext();
+  const [selectedPlaylist, setSelectedPlaylist] = useState();
   const [playlistItems, setPlaylistItems] = useState();
 
   useEffect(() => {
     axios.get(`${getPlaylistEndPoint}?part=snippet&id=${id}`, { headers: { Authorization: "Bearer " + accessToken } })
-      .then(response => { 
+      .then(response => {
         setSelectedPlaylist(response.data.items[0]);
         axios.get(`${getPlaylistItemEndPoint}?part=snippet&playlistId=${response.data.items[0].id}`, { headers: { Authorization: "Bearer " + accessToken } })
-        .then(response => {console.log(response.data)})
+          .then(response => setPlaylistItems(response.data))
       })
       .catch(err => { console.log(err) });
   }, [accessToken, id, setSelectedPlaylist])
@@ -33,18 +33,15 @@ export default function TrackLists({ id }) {
               <p className="playlist-info_name">Playlist name: {selectedPlaylist.snippet.title}</p>
               <p className="playlist-info_owner">Owner: {selectedPlaylist.snippet.channelTitle}</p>
             </div>
-          </div>
-        </>
-      )}
-    </>
-  )
-}
-/*
 
             <ul className="playlist-table seamless">
               {playlistItems.items.map(item =>
                 <li className="playlist-table__item" key={item.id}>{item.snippet.title}</li>
               )}
             </ul>
-
- */
+          </div>
+        </>
+      )}
+    </>
+  )
+}
