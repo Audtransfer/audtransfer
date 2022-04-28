@@ -15,7 +15,11 @@ export default function YoutubeExport() {
 
   useEffect(() => {
     axios.get(`${youtubeUserEndpoint}?part=snippet&mine=true`, { headers: { Authorization: "Bearer " + accessToken } })
-    .then(response => setUser(response.data.items[0]))
+    .then(response => {
+		setUser(response.data.items[0]);
+		axios.get(`${youtubePlaylistEndpoint}?part=snippet&mine=true`, { headers: { Authorization: "Bearer " + accessToken } })
+		.then(response => {setData(response.data)})
+	})
     .catch(err => console.log(err));
   }, [accessToken])
 
@@ -32,6 +36,20 @@ export default function YoutubeExport() {
             </h3>
           </div>
         )}
+
+		<select 
+			onChange={e => setSelectedPlaylist(e.currentTarget.value)} 
+			value={selectedPlaylist} defaultValue=""
+		>
+			<option value="" disabled>Choose a playlist</option>
+			{data.items && data.items.map(item => (
+				<option key={item.id} value={item.id}>{item.snippet.title}</option>
+			))}
+		</select>
+
+		{(selectedPlaylist && selectedPlaylist.length > 0) && 
+			<TrackLists id={selectedPlaylist}/>
+		}
       </div>
     )}
   </>)

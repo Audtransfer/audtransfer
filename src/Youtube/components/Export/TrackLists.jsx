@@ -3,15 +3,22 @@ import axios from "axios"
 import PlaylistTranfer from "./PlaylistTranfer"
 import { useYoutubeContext } from "../../../contexts/Youtube";
 
-const getPlaylistEndPoint = "https://www.googleapis.com/youtube/v3/playlists/"
+const youtubeEndPoint = "https://youtube.googleapis.com/youtube/v3"
+const getPlaylistEndPoint = `${youtubeEndPoint}/playlists`
+const getPlaylistItemEndPoint = `${youtubeEndPoint}/playlistItems`
 
 export default function TrackLists({ id }) {
 	const { accessToken } = useYoutubeContext();
-	const [selectedPlaylist, setSelectedPlaylist] = useState()
+	const [selectedPlaylist, setSelectedPlaylist] = useState();
+  const [playlistItems, setPlaylistItems] = useState();
 
   useEffect(() => {
-    axios.get(`${getPlaylistEndPoint}${id}`, { headers: { Authorization: "Bearer " + accessToken } })
-      .then(response => { setSelectedPlaylist(response.data) })
+    axios.get(`${getPlaylistEndPoint}?part=snippet&id=${id}`, { headers: { Authorization: "Bearer " + accessToken } })
+      .then(response => { 
+        setSelectedPlaylist(response.data.items[0]);
+        axios.get(`${getPlaylistItemEndPoint}?part=snippet&playlistId=${response.data.items[0].id}`, { headers: { Authorization: "Bearer " + accessToken } })
+        .then(response => {console.log(response.data)})
+      })
       .catch(err => { console.log(err) });
   }, [accessToken, id, setSelectedPlaylist])
 
@@ -21,20 +28,23 @@ export default function TrackLists({ id }) {
         <>
           <PlaylistTranfer selected={selectedPlaylist} />
           <div className="playlist">
-            <img className="playlist-image" src={selectedPlaylist.images[0].url} alt="Profile" />
+            <img className="playlist-image" src={selectedPlaylist.snippet.thumbnails.medium.url} alt="Profile" />
             <div className="playlist-info">
-              <p className="playlist-info_name">Playlist name: {selectedPlaylist.name}</p>
-              <p className="playlist-info_owner">Owner: {selectedPlaylist.owner.display_name}</p>
+              <p className="playlist-info_name">Playlist name: {selectedPlaylist.snippet.title}</p>
+              <p className="playlist-info_owner">Owner: {selectedPlaylist.snippet.channelTitle}</p>
             </div>
-
-            <ul className="playlist-table seamless">
-              {selectedPlaylist.tracks.items.map(item =>
-                <li className="playlist-table__item" key={item.track.id}>{item.track.name}</li>
-              )}
-            </ul>
           </div>
         </>
       )}
     </>
   )
 }
+/*
+
+            <ul className="playlist-table seamless">
+              {playlistItems.items.map(item =>
+                <li className="playlist-table__item" key={item.id}>{item.snippet.title}</li>
+              )}
+            </ul>
+
+ */
