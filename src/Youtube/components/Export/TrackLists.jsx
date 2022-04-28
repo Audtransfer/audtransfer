@@ -34,11 +34,16 @@ export default function TrackLists({ id }) {
               <p className="playlist-info_owner">Owner: {selectedPlaylist.snippet.channelTitle}</p>
             </div>
 
-            <ul className="playlist-table seamless">
-              {playlistItems.items.map(item =>
-                <li className="playlist-table__item" key={item.id}>{item.snippet.title}</li>
-              )}
-            </ul>
+            {
+              playlistItems && (
+                <ul className="playlist-table seamless">
+                  {playlistItems.items.map(item =>
+                    <li className="playlist-table__item" key={item.id}>{item.snippet.title}</li>
+                  )}
+                </ul>
+              )
+            }
+
           </div>
         </>
       )}
