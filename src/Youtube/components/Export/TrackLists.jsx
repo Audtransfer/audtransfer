@@ -11,16 +11,17 @@ export default function TrackLists({ id }) {
   const { accessToken } = useYoutubeContext();
   const [selectedPlaylist, setSelectedPlaylist] = useState();
   const [playlistItems, setPlaylistItems] = useState();
+  const [pageToken, setPageToken] = useState("");
 
   useEffect(() => {
     axios.get(`${getPlaylistEndPoint}?part=snippet&id=${id}`, { headers: { Authorization: "Bearer " + accessToken } })
       .then(response => {
         setSelectedPlaylist(response.data.items[0]);
-        axios.get(`${getPlaylistItemEndPoint}?part=snippet&playlistId=${response.data.items[0].id}`, { headers: { Authorization: "Bearer " + accessToken } })
+        axios.get(`${getPlaylistItemEndPoint}?part=snippet&playlistId=${response.data.items[0].id}&maxResults=21&pageToken=${pageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
           .then(response => setPlaylistItems(response.data))
       })
       .catch(err => { console.log(err) });
-  }, [accessToken, id, setSelectedPlaylist])
+  }, [accessToken, id, setSelectedPlaylist, pageToken])
 
   return (
     <>
@@ -44,6 +45,23 @@ export default function TrackLists({ id }) {
               )
             }
 
+            <div>
+              {
+                playlistItems && playlistItems.prevPageToken && (
+                  <button onClick={() => setPageToken(playlistItems.prevPageToken)}>
+                    Voltar
+                  </button>
+                )
+              }
+
+              {
+                playlistItems && playlistItems.nextPageToken && (
+                  <button onClick={() => setPageToken(playlistItems.nextPageToken)}>
+                    Avançar
+                  </button>
+                )
+              }
+            </div>
           </div>
         </>
       )}
