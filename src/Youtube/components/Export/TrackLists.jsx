@@ -14,7 +14,7 @@ export default function TrackLists({ id }) {
   const [pageToken, setPageToken] = useState("");
 
   useEffect(() => {
-    axios.get(`${getPlaylistEndPoint}?part=snippet&id=${id}`, { headers: { Authorization: "Bearer " + accessToken } })
+    axios.get(`${getPlaylistEndPoint}?part=snippet%2Cstatus&id=${id}`, { headers: { Authorization: "Bearer " + accessToken } })
       .then(response => {
         setSelectedPlaylist(response.data.items[0]);
         axios.get(`${getPlaylistItemEndPoint}?part=snippet&playlistId=${response.data.items[0].id}&maxResults=48&pageToken=${pageToken}`, { headers: { Authorization: "Bearer " + accessToken } })

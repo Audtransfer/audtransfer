@@ -1,20 +1,43 @@
+import { useState } from "react"
 import { useHistory } from "react-router";
+import axios from "axios";
+import { useYoutubeContext } from "../../../contexts/Youtube";
+
+const youtubePlaylistItemEndPoint = "https://youtube.googleapis.com/youtube/v3/playlistItems"
 
 export default function PlaylistTranfer({ selected }) {
-	const history = useHistory()
+	const history = useHistory();
+	const { accessToken } = useYoutubeContext();
+	const [playlistItemsT, setPlaylistItemsT] = useState([]);
+	const [nextPageToken, setNextPageToken] = useState("");
+	const [erro, setErro] = useState(false);
+
+	const handleLoad = () => {
+		while(!erro && nextPageToken)
+		{
+			axios.get(`${youtubePlaylistItemEndPoint}?part=snippet&playlistId=${selected.id}&maxResults=50&pageToken=${nextPageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
+			.then(response => {
+				setPlaylistItemsT(oldArray => [...oldArray, ...response.data.items]);
+				console.log(response.data.items);
+				setNextPageToken(response.data.nextPageToken);
+				console.log(response.data.nextPageToken);
+			})
+			.catch(err => { console.log(err); setErro(true); });
+		}
+	}
 
 	const handleClick = () => {
 		const playlistToTransfer = ({
 			playlistId: selected.id,
-			playlistName: selected.name,
-			playlistType: selected.type,
+			playlistName: selected.snippet.title,
+			playlistType: selected.kind,
 			playlistOrigin: "YouTube Music",
-			public: selected.public,
-			tracks: selected.tracks.items.map(item => {
+			public: selected.status.privacyStatus === 'public',//"public" -> true; "private" || "unlisted" -> false
+			tracks: playlistItemsT.map(item => {
 				return {
-					trackName: item.track.name,
-					artistName: item.track.artists[0].name,
-					trackId: item.track.id
+					trackName: item.snippet.title,
+					artistName: item.snippet.videoOwnerChannelTitle,
+					trackId: item.id
 				}
 			}),
 		})
@@ -25,7 +48,7 @@ export default function PlaylistTranfer({ selected }) {
 
 	return (
 		<>
-			<button onClick={() => handleClick()} className="button-submit">Transfer this playlist</button>
+			<button onLoadStart={() => handleLoad()} onClick={() => handleClick()} className="button-submit">Transfer this playlist</button>
 		</>
 	)
 }
