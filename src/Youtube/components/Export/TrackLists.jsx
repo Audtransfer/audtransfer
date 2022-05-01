@@ -17,7 +17,7 @@ export default function TrackLists({ id }) {
     axios.get(`${getPlaylistEndPoint}?part=snippet&id=${id}`, { headers: { Authorization: "Bearer " + accessToken } })
       .then(response => {
         setSelectedPlaylist(response.data.items[0]);
-        axios.get(`${getPlaylistItemEndPoint}?part=snippet&playlistId=${response.data.items[0].id}&maxResults=21&pageToken=${pageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
+        axios.get(`${getPlaylistItemEndPoint}?part=snippet&playlistId=${response.data.items[0].id}&maxResults=48&pageToken=${pageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
           .then(response => setPlaylistItems(response.data))
       })
       .catch(err => { console.log(err) });
@@ -48,16 +48,16 @@ export default function TrackLists({ id }) {
             <div>
               {
                 playlistItems && playlistItems.prevPageToken && (
-                  <button onClick={() => setPageToken(playlistItems.prevPageToken)}>
-                    Voltar
+                  <button title="Show previous tracks" onClick={() => setPageToken(playlistItems.prevPageToken)}>
+                    Previous
                   </button>
                 )
               }
 
               {
                 playlistItems && playlistItems.nextPageToken && (
-                  <button onClick={() => setPageToken(playlistItems.nextPageToken)}>
-                    Avançar
+                  <button title="Show next tracks" onClick={() => setPageToken(playlistItems.nextPageToken)}>
+                    Next
                   </button>
                 )
               }

@@ -9,19 +9,20 @@ const youtubePlaylistEndpoint = `${youtubeEndpoint}/playlists`;
 
 export default function YoutubeExport() {
   const { accessToken } = useYoutubeContext();
-  const [user, setUser] = useState({})
-  const [data, setData] = useState({})
-  const [selectedPlaylist, setSelectedPlaylist] = useState()
+  const [user, setUser] = useState({});
+  const [data, setData] = useState({});
+  const [selectedPlaylist, setSelectedPlaylist] = useState();
+  const [pageToken, setPageToken] = useState("");
 
   useEffect(() => {
     axios.get(`${youtubeUserEndpoint}?part=snippet&mine=true`, { headers: { Authorization: "Bearer " + accessToken } })
       .then(response => {
         setUser(response.data.items[0]);
-        axios.get(`${youtubePlaylistEndpoint}?part=snippet&mine=true`, { headers: { Authorization: "Bearer " + accessToken } })
+        axios.get(`${youtubePlaylistEndpoint}?part=snippet&mine=true&maxResults=50&pageToken=${pageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
           .then(response => setData(response.data))
       })
       .catch(err => console.log(err));
-  }, [accessToken])
+  }, [accessToken, pageToken])
 
   return (<>
     {accessToken && (
@@ -37,6 +38,13 @@ export default function YoutubeExport() {
           </div>
         )}
 
+        {
+          data && data.prevPageToken && (
+            <button title="Go back to previous playlists" onClick={() => setPageToken(data.prevPageToken)}>
+              &lt;
+            </button>
+          )
+        }
         <select
           onChange={e => setSelectedPlaylist(e.currentTarget.value)}
           value={selectedPlaylist} defaultValue=""
@@ -46,6 +54,13 @@ export default function YoutubeExport() {
             <option key={item.id} value={item.id}>{item.snippet.title}</option>
           ))}
         </select>
+        {
+          data && data.nextPageToken && (
+            <button title="Go forward to next playlists" onClick={() => setPageToken(data.nextPageToken)}>
+              &gt;
+            </button>
+          )
+        }
 
         {(selectedPlaylist && selectedPlaylist.length > 0) &&
           <TrackLists id={selectedPlaylist} />
