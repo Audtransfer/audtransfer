@@ -10,18 +10,31 @@ const getPlaylistItemEndPoint = `${youtubeEndPoint}/playlistItems`
 export default function TrackLists({ id }) {
   const { accessToken } = useYoutubeContext();
   const [selectedPlaylist, setSelectedPlaylist] = useState();
-  const [playlistItems, setPlaylistItems] = useState();
-  const [pageToken, setPageToken] = useState("");
+  const [playlistItems, setPlaylistItems] = useState([]);
+
+  const getPlaylist = async (token) => {
+    const query = `${getPlaylistItemEndPoint}?part=snippet&playlistId=${id}&maxResults=50&pageToken=${token}`;
+    const response = await axios.get(query, { headers: { Authorization: "Bearer " + accessToken } });
+    const data = response.data;
+    console.log(data);
+    // setPlaylistItems([...playlistItems, data.items]);
+
+    if (data.nextPageToken) {
+      return await getPlaylist(data.nextPageToken);
+    }
+    else {
+      return data;
+    }
+  }
 
   useEffect(() => {
     axios.get(`${getPlaylistEndPoint}?part=snippet%2Cstatus&id=${id}`, { headers: { Authorization: "Bearer " + accessToken } })
-      .then(response => {
-        setSelectedPlaylist(response.data.items[0]);
-        axios.get(`${getPlaylistItemEndPoint}?part=snippet&playlistId=${response.data.items[0].id}&maxResults=48&pageToken=${pageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
-          .then(response => setPlaylistItems(response.data))
-      })
-      .catch(err => { console.log(err) });
-  }, [accessToken, id, setSelectedPlaylist, pageToken])
+    .then(response => setSelectedPlaylist(response.data.items[0]))
+    .then(() => {
+      setPlaylistItems(getPlaylist(""));
+    })
+    .catch(err => { console.log(err) });
+  }, [accessToken, id, setSelectedPlaylist])
 
   return (
     <>
@@ -35,7 +48,7 @@ export default function TrackLists({ id }) {
               <p className="playlist-info_owner">Owner: {selectedPlaylist.snippet.channelTitle}</p>
             </div>
 
-            {
+            {/* {
               playlistItems && (
                 <ul className="playlist-table seamless">
                   {playlistItems.items.map(item =>
@@ -43,25 +56,7 @@ export default function TrackLists({ id }) {
                   )}
                 </ul>
               )
-            }
-
-            <div>
-              {
-                playlistItems && playlistItems.prevPageToken && (
-                  <button title="Show previous tracks" onClick={() => setPageToken(playlistItems.prevPageToken)}>
-                    Previous
-                  </button>
-                )
-              }
-
-              {
-                playlistItems && playlistItems.nextPageToken && (
-                  <button title="Show next tracks" onClick={() => setPageToken(playlistItems.nextPageToken)}>
-                    Next
-                  </button>
-                )
-              }
-            </div>
+            } */}
           </div>
         </>
       )}
