@@ -37,7 +37,7 @@ export default function PlaylistTranfer({ selected }) {
 				return {
 					trackName: item.snippet.title,
 					artistName: item.snippet.videoOwnerChannelTitle,
-					trackId: item.id
+					trackId: item.snippet.resourceId.videoId //usado ao transferir para youtube
 				}
 			}),
 		})
