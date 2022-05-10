@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import axios from "axios"
 import PlaylistTranfer from "./PlaylistTranfer"
 import { useYoutubeContext } from "../../../contexts/Youtube";
@@ -12,29 +12,42 @@ export default function TrackLists({ id }) {
   const [selectedPlaylist, setSelectedPlaylist] = useState();
   const [playlistItems, setPlaylistItems] = useState([]);
 
-  const getPlaylist = async (token) => {
+  const callback = useCallback(async (token) => {
     const query = `${getPlaylistItemEndPoint}?part=snippet&playlistId=${id}&maxResults=50&pageToken=${token}`;
     const response = await axios.get(query, { headers: { Authorization: "Bearer " + accessToken } });
     const data = response.data;
     console.log(data);
-    // setPlaylistItems([...playlistItems, data.items]);
-
+    setPlaylistItems(oldArray => [...oldArray, data.items]);
     if (data.nextPageToken) {
-      return await getPlaylist(data.nextPageToken);
+      return await callback(data.nextPageToken);
     }
     else {
-      return data;
+      return data.items;
     }
-  }
+  }, [accessToken, id]);
+
+  // const getPlaylist = async (token) => {
+  //   const query = `${getPlaylistItemEndPoint}?part=snippet&playlistId=${id}&maxResults=50&pageToken=${token}`;
+  //   const response = await axios.get(query, { headers: { Authorization: "Bearer " + accessToken } });
+  //   const data = response.data;
+  //   console.log(data);
+  //   setPlaylistItems(oldArray => [...oldArray, data.items]);
+  //   if (data.nextPageToken) {
+  //     return await getPlaylist(data.nextPageToken);
+  //   }
+  //   else {
+  //     return data.items;
+  //   }
+  // }
 
   useEffect(() => {
     axios.get(`${getPlaylistEndPoint}?part=snippet%2Cstatus&id=${id}`, { headers: { Authorization: "Bearer " + accessToken } })
     .then(response => setSelectedPlaylist(response.data.items[0]))
     .then(() => {
-      setPlaylistItems(getPlaylist(""));
+      setPlaylistItems(oldArray => [...oldArray, callback("")]);
     })
     .catch(err => { console.log(err) });
-  }, [accessToken, id, setSelectedPlaylist])
+  }, [accessToken, id, setSelectedPlaylist, callback])
 
   return (
     <>
@@ -51,7 +64,7 @@ export default function TrackLists({ id }) {
             {/* {
               playlistItems && (
                 <ul className="playlist-table seamless">
-                  {playlistItems.items.map(item =>
+                  {playlistItems.map(item =>
                     <li className="playlist-table__item" key={item.id}>{item.snippet.title}</li>
                   )}
                 </ul>
