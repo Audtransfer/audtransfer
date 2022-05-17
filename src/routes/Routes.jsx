@@ -6,9 +6,6 @@ import Page404 from "../pages/Page404/Page404";
 import Home from "../pages/Home";
 import Success from "../pages/Success";
 
-//CONTEXTS
-import SpotifyProvider from "../contexts/Spotify";
-
 //SPOTIFY
 import Spotify from "../Spotify"
 import SpotifyExport from "../Spotify/pages/SpotifyExport";
@@ -20,12 +17,10 @@ export default function Routes() {
 			<Switch>
 				<Route exact path={ROTAS.HOME} component={Home}/>
 				<Route exact path={ROTAS.SUCCESS} component={Success}/>
-
-				<SpotifyProvider>
-					<Route exact path={ROTAS.SPOTIFY} component={Spotify}/>
-					<Route exact path={ROTAS.SPOTIFY_EXPORT} component={SpotifyExport}/>
-					<Route exact path={ROTAS.SPOTIFY_IMPORT} component={SpotifyImport}/>
-				</SpotifyProvider>
+				
+				<Route exact path={ROTAS.SPOTIFY} component={Spotify}/>
+				<Route exact path={ROTAS.SPOTIFY_EXPORT} component={SpotifyExport}/>
+				<Route exact path={ROTAS.SPOTIFY_IMPORT} component={SpotifyImport}/>
 				
 				<Route path="" component={Page404}/>
 			</Switch>
