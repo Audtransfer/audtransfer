@@ -5,6 +5,7 @@ import { useDeezerContext } from "../../contexts/Deezer";
 
 const corsSolution = "https://cors-anywhere.herokuapp.com/";
 const basicEndpoint = "https://api.deezer.com/user";
+const deezerBackend = "http://localhost:5000/deezer"
 
 export default function DeezerImport() {
 	const dataTransfer = JSON.parse(sessionStorage.getItem('playlisToTransfer'));
@@ -15,27 +16,27 @@ export default function DeezerImport() {
 	const [playlistId, setPlaylistId] = useState()
 
 	useEffect(() => {
-		//DEGUB
+		//DEGUB TODO
 		console.log(accessToken);
 
-		// TODO URGENT, solve cors problem without using heroku app!!!!
-		axios.get(`${corsSolution}${basicEndpoint}/me?output=json&access_token=${accessToken}`)
+		axios.get(`${deezerBackend}User`, {
+			params: { access: accessToken}
+		})
 		.then(response => setUser(response.data))
 		.catch(err => console.log(err));
 
 	}, [accessToken])
 
 	const handleCreate = () => {
-		// https://api.deezer.com/user/623518687/playlists
-		// ?output=json&request_method=POST&title=teste2&output=json&access_token=fr9crIcqnQkbggGxyW2ctmeXHtY7rcr7pme1JCLPAaV8yB3YMjR
-
-		// console.log(urlCreate);
-
-		let urlCreate = `${corsSolution}${basicEndpoint}/${user.id}/playlists&title=${dataTransfer.playlistName}&output=json&access_token=${accessToken}`;
-
-		axios.post(urlCreate)
+		axios.get(`${deezerBackend}CreatePlaylist`, {
+			params: {
+				access: accessToken,
+				id: user.id,
+				title: dataTransfer.playlistName
+			}
+		})
 		.then(response => setPlaylistId(response.data))
-		.catch((err) => console.log(err));
+		.catch(err => console.log(err));
 	}
 	
 	const handleAdd = async () => {

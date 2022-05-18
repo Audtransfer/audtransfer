@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import { useDeezerContext } from "../../contexts/Deezer";
 import Tracklist from '../components/Tracklist';
 
-const corsSolution = "https://cors-anywhere.herokuapp.com/";
-const basicEndpoint = "https://api.deezer.com/user";
-const userEndpoint = `${basicEndpoint}/me`;
+const deezerBackend = "http://localhost:5000/deezer"
 
 export default function DeezerExport() {
 	const { accessToken } = useDeezerContext();
@@ -15,19 +13,26 @@ export default function DeezerExport() {
 	const [selectedPlaylist, setSelectedPlaylist] = useState()
 
 	useEffect(() => {
-		//DEGUB
+		//DEGUB TODO
 		console.log(accessToken);
-
-		// TODO URGENT, solve cors problem without using heroku app!!!!
-		axios.get(`${corsSolution}${userEndpoint}?output=json&access_token=${accessToken}`)
+		
+		axios.get(`${deezerBackend}User`, {
+			params: { access: accessToken}
+		})
 		.then(response => {
 			setUser(response.data)
-
-			axios.get(`${corsSolution}${basicEndpoint}/${response.data.id}/playlists`)
+			return response.data
+		})
+		.then(response => {
+			axios.get(`${deezerBackend}Playlist`, {
+				params: { 
+					access: accessToken,
+					id: response.id
+				}
+			})
 			.then(response => setData(response.data))
 		})
 		.catch(err => { console.log(err) });
-
 	}, [accessToken])
 	
 	return (<>

@@ -2,14 +2,16 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import PlaylistTransfer from './PlaylistTransfer';
 
-const corsSolution = "https://cors-anywhere.herokuapp.com/";
-const getPlaylistEndPoint = "https://api.deezer.com/playlist/";
+const deezerBackend = "http://localhost:5000/deezer"
 
 export default function Tracklist({ id }) {
 	const [selectedPlaylist, setSelectedPlaylist] = useState();
 
 	useEffect(() => {
-		axios.get(`${corsSolution}${getPlaylistEndPoint}${id}`)
+
+		axios.get(`${deezerBackend}AnyPlaylist`, {
+			params: { id: id }
+		})
 		.then(response =>  setSelectedPlaylist(response.data))
 		.catch(err => { console.log(err) });
 	}, [id])
