@@ -3,28 +3,22 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDeezerContext } from "../../contexts/Deezer";
 
-const corsSolution = "https://cors-anywhere.herokuapp.com/";
-const basicEndpoint = "https://api.deezer.com/user";
 const deezerBackend = "http://localhost:5000/deezer"
 
 export default function DeezerImport() {
 	const dataTransfer = JSON.parse(sessionStorage.getItem('playlisToTransfer'));
 	const { accessToken } = useDeezerContext();
 	const [user, setUser] = useState();
-	const history = useHistory();
-
 	const [playlistId, setPlaylistId] = useState()
+	const history = useHistory();
 
 	useEffect(() => {
 		//DEGUB TODO
 		console.log(accessToken);
 
-		axios.get(`${deezerBackend}User`, {
-			params: { access: accessToken}
-		})
+		axios.get(`${deezerBackend}User`, {params: { access: accessToken}})
 		.then(response => setUser(response.data))
 		.catch(err => console.log(err));
-
 	}, [accessToken])
 
 	const handleCreate = () => {
@@ -35,32 +29,34 @@ export default function DeezerImport() {
 				title: dataTransfer.playlistName
 			}
 		})
-		.then(response => setPlaylistId(response.data))
+		.then(response => setPlaylistId(response.data.id))
 		.catch(err => console.log(err));
 	}
 	
 	const handleAdd = async () => {
+		//DEGUB TODO
+		console.log(playlistId);
 
-		let tracksUrl = "";
+		const tracksPromises = dataTransfer.tracks.map(async item => {
+			let trackId = await handleSearch(item)
+			return trackId
+		})
+		console.log(await Promise.all(tracksPromises));
 
-		if(dataTransfer.playlistOrigin === "Deezer") {
-			console.log("veio do deezer, se vira");
-		}
-		else {
-			const tracksPromises = dataTransfer.tracks.map(async item => {
-				const trackId = await handleSearch(item);
-				return { trackId }
-			})
-			console.log(await Promise.all(tracksPromises));
-		}
-
+		// TODO
+		// The search request is done both in front and back ends,
+		// needs just do some logics, for adding a track in the specific playlist,
+		// in backend just do a simple request, logics stays here
 	}
 
 	const handleSearch = async (item) => {
-		const urlSearch = `${corsSolution}https://api.deezer.com/search?q=track:"${item.trackName}"artist:"${item.artistName}"&output=json&access_token=${accessToken}`
-		const { data } = await axios.get(urlSearch);
-		console.log(data);
-		return data.data[0].id
+		const { data } = await axios.get(`${deezerBackend}SearchTrack`, {
+			params: {
+				artist: item.artistName,
+				track: item.trackName
+			}
+		});
+		return data.data[0].id || null;
 	}
 
 	return (
