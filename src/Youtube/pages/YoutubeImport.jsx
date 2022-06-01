@@ -57,6 +57,55 @@ export default function YoutubeImport() {
 			`${basicEndpoint}/search?part=snippet&maxResults=50&q=${item.trackName}%20${item.artistName}&type=video`,
 			{headers: {Authorization: "Bearer " + accessToken}}
 		);
+
+        if (
+            data.items.find(x => 
+            x.snippet.channelTitle.toUpperCase().replace(/[^\w\s]/gi, '') === (item.artistName.toUpperCase() + " - TOPIC").replace(/[^\w\s]/gi, '')
+            && x.snippet.title.toUpperCase().replace(/[^\w\s]/gi, '').includes(item.trackName.toUpperCase().replace(/[^\w\s]/gi, '')))
+            )
+            return data.items.find(x => 
+                x.snippet.channelTitle.toUpperCase().replace(/[^\w\s]/gi, '') === (item.artistName.toUpperCase() + " - TOPIC").replace(/[^\w\s]/gi, '')
+                && x.snippet.title.toUpperCase().replace(/[^\w\s]/gi, '').includes(item.trackName.toUpperCase().replace(/[^\w\s]/gi, ''))
+                ).id.videoId;
+
+        if (
+            data.items.find(x => 
+            x.snippet.channelTitle.toUpperCase().replace(/[^\w\s]/gi, '') === (item.artistName.toUpperCase() + " VEVO").replace(/[^\w\s]/gi, '')
+            && x.snippet.title.toUpperCase().replace(/[^\w\s]/gi, '').includes(item.trackName.toUpperCase().replace(/[^\w\s]/gi, '')))
+            )
+            return data.items.find(x => 
+                x.snippet.channelTitle.toUpperCase().replace(/[^\w\s]/gi, '') === (item.artistName.toUpperCase() + " VEVO").replace(/[^\w\s]/gi, '')
+                && x.snippet.title.toUpperCase().replace(/[^\w\s]/gi, '').includes(item.trackName.toUpperCase().replace(/[^\w\s]/gi, ''))
+                ).id.videoId;
+
+        if (
+            data.items.find(x => 
+            x.snippet.channelTitle.toUpperCase().replace(/[^\w\s]/gi, '') === item.artistName.toUpperCase().replace(/[^\w\s]/gi, '')
+            && x.snippet.title.toUpperCase().replace(/[^\w\s]/gi, '').includes(item.trackName.toUpperCase().replace(/[^\w\s]/gi, '')))
+            )
+            return data.items.find(x => 
+                x.snippet.channelTitle.toUpperCase().replace(/[^\w\s]/gi, '') === item.artistName.toUpperCase().replace(/[^\w\s]/gi, '')
+                && x.snippet.title.toUpperCase().replace(/[^\w\s]/gi, '').includes(item.trackName.toUpperCase().replace(/[^\w\s]/gi, ''))
+                ).id.videoId;
+
+        if (
+            data.items.find(x => 
+            x.snippet.channelTitle.toUpperCase().replace(/[^\w\s]/gi, '').startsWith(item.artistName.toUpperCase().replace(/[^\w\s]/gi, ''))
+            && x.snippet.title.toUpperCase().replace(/[^\w\s]/gi, '').includes(item.trackName.toUpperCase().replace(/[^\w\s]/gi, '')))
+            )
+            return data.items.find(x => 
+                x.snippet.channelTitle.toUpperCase().replace(/[^\w\s]/gi, '').startsWith(item.artistName.toUpperCase().replace(/[^\w\s]/gi, ''))
+                && x.snippet.title.toUpperCase().replace(/[^\w\s]/gi, '').includes(item.trackName.toUpperCase().replace(/[^\w\s]/gi, ''))
+                ).id.videoId;
+
+        if (
+            data.items.find(x => 
+            x.snippet.channelTitle.toUpperCase().replace(/[^\w\s]/gi, '').startsWith(item.artistName.toUpperCase().replace(/[^\w\s]/gi, '')))
+            )
+            return data.items.find(x => 
+                x.snippet.channelTitle.toUpperCase().replace(/[^\w\s]/gi, '').startsWith(item.artistName.toUpperCase().replace(/[^\w\s]/gi, ''))
+                ).id.videoId;
+
 		return data.items[0].id.videoId;
 	};
 	
