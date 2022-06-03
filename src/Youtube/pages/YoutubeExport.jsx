@@ -46,7 +46,7 @@ export default function YoutubeExport() {
           )
         }
         <select
-          onChange={e => setSelectedPlaylist(e.currentTarget.value)}
+          onChange={e => { setSelectedPlaylist(e.currentTarget.value); setPageToken("") }}
           value={selectedPlaylist} defaultValue=""
         >
           <option value="" disabled>Choose a playlist</option>
@@ -63,7 +63,7 @@ export default function YoutubeExport() {
         }
 
         {(selectedPlaylist && selectedPlaylist.length > 0) &&
-          <TrackLists id={selectedPlaylist} />
+          <TrackLists id={selectedPlaylist} pageToken={pageToken} />
         }
       </div>
     )}
