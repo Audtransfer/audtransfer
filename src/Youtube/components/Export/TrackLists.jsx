@@ -7,11 +7,11 @@ const youtubeEndPoint = "https://youtube.googleapis.com/youtube/v3"
 const getPlaylistEndPoint = `${youtubeEndPoint}/playlists`
 const getPlaylistItemEndPoint = `${youtubeEndPoint}/playlistItems`
 
-export default function TrackLists({ id, pageToken }) {
+export default function TrackLists({ id }) {
   const { accessToken } = useYoutubeContext();
   const [selectedPlaylist, setSelectedPlaylist] = useState();
   const [playlistItems, setPlaylistItems] = useState([]);
-  const [token, setToken] = useState(pageToken);
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     axios.get(`${getPlaylistEndPoint}?part=snippet%2Cstatus&id=${id}`, { headers: { Authorization: "Bearer " + accessToken } })
@@ -22,8 +22,8 @@ export default function TrackLists({ id, pageToken }) {
             const data = response.data;
             setPlaylistItems(oldArray => [...oldArray, ...data.items]);
 
-            if (response.data.nextPageToken) {
-              setToken(response.data.nextPageToken);
+            if (data.nextPageToken) {
+              setToken(data.nextPageToken);
             }
           })
       })
