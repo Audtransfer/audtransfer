@@ -63,7 +63,7 @@ export default function YoutubeExport() {
         }
 
         {(selectedPlaylist && selectedPlaylist.length > 0) &&
-          <TrackLists id={selectedPlaylist} />
+          <TrackLists selectedPlaylist={data.items.find(item => item.id === selectedPlaylist)} />
         }
       </div>
     )}

@@ -4,42 +4,36 @@ import PlaylistTranfer from "./PlaylistTranfer"
 import { useYoutubeContext } from "../../../contexts/Youtube";
 
 const youtubeEndPoint = "https://youtube.googleapis.com/youtube/v3"
-const getPlaylistEndPoint = `${youtubeEndPoint}/playlists`
 const getPlaylistItemEndPoint = `${youtubeEndPoint}/playlistItems`
 
-export default function TrackLists({ id }) {
+export default function TrackLists({ selectedPlaylist }) {
   const { accessToken } = useYoutubeContext();
-  const [selectedPlaylist, setSelectedPlaylist] = useState();
   const [playlistItems, setPlaylistItems] = useState([]);
   const [token, setToken] = useState("");
 
   useEffect(() => {
     setPlaylistItems([]);
     setToken("");
-  }, [id]);
+  }, [selectedPlaylist]);
   
   useEffect(() => {
-    axios.get(`${getPlaylistEndPoint}?part=snippet%2Cstatus&id=${id}`, { headers: { Authorization: "Bearer " + accessToken } })
-      .then(response => setSelectedPlaylist(response.data.items[0]))
-      .then(() => {
-        axios.get(`${getPlaylistItemEndPoint}?part=snippet&playlistId=${id}&maxResults=50&pageToken=${token}`, { headers: { Authorization: "Bearer " + accessToken } })
-          .then(response => {
-            const data = response.data;
-            setPlaylistItems(oldArray => [...oldArray, ...data.items]);
+    axios.get(`${getPlaylistItemEndPoint}?part=snippet&playlistId=${selectedPlaylist.id}&maxResults=50&pageToken=${token}`, { headers: { Authorization: "Bearer " + accessToken } })
+    .then(response => {
+      const data = response.data;
+      setPlaylistItems(oldArray => [...oldArray, ...data.items]);
 
-            if (data.nextPageToken) {
-              setToken(data.nextPageToken);
-            }
-          })
-      })
-      .catch(err => { console.log(err) });
-  }, [accessToken, id, token])
+      if (data.nextPageToken) {
+        setToken(data.nextPageToken);
+      }
+    })
+    .catch(err => { console.log(err) });
+  }, [accessToken, selectedPlaylist, token])
 
   return (
     <>
       {selectedPlaylist && (
         <>
-          <PlaylistTranfer selected={selectedPlaylist} />
+          <PlaylistTranfer selectedPlaylist={selectedPlaylist} />
           <div className="playlist">
             <img className="playlist-image" src={selectedPlaylist.snippet.thumbnails.medium.url} alt="Profile" />
             <div className="playlist-info">
