@@ -14,6 +14,11 @@ export default function TrackLists({ id }) {
   const [token, setToken] = useState("");
 
   useEffect(() => {
+    setPlaylistItems([]);
+    setToken("");
+  }, [id]);
+  
+  useEffect(() => {
     axios.get(`${getPlaylistEndPoint}?part=snippet%2Cstatus&id=${id}`, { headers: { Authorization: "Bearer " + accessToken } })
       .then(response => setSelectedPlaylist(response.data.items[0]))
       .then(() => {
@@ -28,7 +33,7 @@ export default function TrackLists({ id }) {
           })
       })
       .catch(err => { console.log(err) });
-  }, [accessToken, id, setSelectedPlaylist, token])
+  }, [accessToken, id, token])
 
   return (
     <>
