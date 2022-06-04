@@ -18,7 +18,7 @@ export default function YoutubeExport() {
     axios.get(`${youtubeUserEndpoint}?part=snippet&mine=true`, { headers: { Authorization: "Bearer " + accessToken } })
       .then(response => {
         setUser(response.data.items[0]);
-        axios.get(`${youtubePlaylistEndpoint}?part=snippet&mine=true&maxResults=50&pageToken=${pageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
+        axios.get(`${youtubePlaylistEndpoint}?part=snippet,status&mine=true&maxResults=50&pageToken=${pageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
           .then(response => setData(response.data))
       })
       .catch(err => console.log(err));
