@@ -4,30 +4,36 @@ import PlaylistTranfer from "./PlaylistTranfer"
 import { useYoutubeContext } from "../../../contexts/Youtube";
 
 const youtubeEndPoint = "https://youtube.googleapis.com/youtube/v3"
-const getPlaylistEndPoint = `${youtubeEndPoint}/playlists`
 const getPlaylistItemEndPoint = `${youtubeEndPoint}/playlistItems`
 
-export default function TrackLists({ id }) {
+export default function TrackLists({ selectedPlaylist }) {
   const { accessToken } = useYoutubeContext();
-  const [selectedPlaylist, setSelectedPlaylist] = useState();
-  const [playlistItems, setPlaylistItems] = useState();
-  const [pageToken, setPageToken] = useState("");
+  const [playlistItems, setPlaylistItems] = useState([]);
+  const [token, setToken] = useState("");
 
   useEffect(() => {
-    axios.get(`${getPlaylistEndPoint}?part=snippet%2Cstatus&id=${id}`, { headers: { Authorization: "Bearer " + accessToken } })
-      .then(response => {
-        setSelectedPlaylist(response.data.items[0]);
-        axios.get(`${getPlaylistItemEndPoint}?part=snippet&playlistId=${response.data.items[0].id}&maxResults=48&pageToken=${pageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
-          .then(response => setPlaylistItems(response.data))
-      })
-      .catch(err => { console.log(err) });
-  }, [accessToken, id, setSelectedPlaylist, pageToken])
+    setPlaylistItems([]);
+    setToken("");
+  }, [selectedPlaylist]);
+  
+  useEffect(() => {
+    axios.get(`${getPlaylistItemEndPoint}?part=snippet&playlistId=${selectedPlaylist.id}&maxResults=50&pageToken=${token}`, { headers: { Authorization: "Bearer " + accessToken } })
+    .then(response => {
+      const data = response.data;
+      setPlaylistItems(oldArray => [...oldArray, ...data.items]);
+
+      if (data.nextPageToken) {
+        setToken(data.nextPageToken);
+      }
+    })
+    .catch(err => { console.log(err) });
+  }, [accessToken, selectedPlaylist, token])
 
   return (
     <>
       {selectedPlaylist && (
         <>
-          <PlaylistTranfer selected={selectedPlaylist} />
+          <PlaylistTranfer selectedPlaylist={selectedPlaylist} playlistItems={playlistItems} />
           <div className="playlist">
             <img className="playlist-image" src={selectedPlaylist.snippet.thumbnails.medium.url} alt="Profile" />
             <div className="playlist-info">
@@ -38,30 +44,12 @@ export default function TrackLists({ id }) {
             {
               playlistItems && (
                 <ul className="playlist-table seamless">
-                  {playlistItems.items.map(item =>
+                  {playlistItems.map(item =>
                     <li className="playlist-table__item" key={item.id}>{item.snippet.title}</li>
                   )}
                 </ul>
               )
             }
-
-            <div>
-              {
-                playlistItems && playlistItems.prevPageToken && (
-                  <button title="Show previous tracks" onClick={() => setPageToken(playlistItems.prevPageToken)}>
-                    Previous
-                  </button>
-                )
-              }
-
-              {
-                playlistItems && playlistItems.nextPageToken && (
-                  <button title="Show next tracks" onClick={() => setPageToken(playlistItems.nextPageToken)}>
-                    Next
-                  </button>
-                )
-              }
-            </div>
           </div>
         </>
       )}

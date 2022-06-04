@@ -18,7 +18,7 @@ export default function YoutubeExport() {
     axios.get(`${youtubeUserEndpoint}?part=snippet&mine=true`, { headers: { Authorization: "Bearer " + accessToken } })
       .then(response => {
         setUser(response.data.items[0]);
-        axios.get(`${youtubePlaylistEndpoint}?part=snippet&mine=true&maxResults=50&pageToken=${pageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
+        axios.get(`${youtubePlaylistEndpoint}?part=snippet,status&mine=true&maxResults=50&pageToken=${pageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
           .then(response => setData(response.data))
       })
       .catch(err => console.log(err));
@@ -46,7 +46,7 @@ export default function YoutubeExport() {
           )
         }
         <select
-          onChange={e => setSelectedPlaylist(e.currentTarget.value)}
+          onChange={e => { setSelectedPlaylist(e.currentTarget.value) }}
           value={selectedPlaylist} defaultValue=""
         >
           <option value="" disabled>Choose a playlist</option>
@@ -63,7 +63,7 @@ export default function YoutubeExport() {
         }
 
         {(selectedPlaylist && selectedPlaylist.length > 0) &&
-          <TrackLists id={selectedPlaylist} />
+          <TrackLists selectedPlaylist={data.items.find(item => item.id === selectedPlaylist)} />
         }
       </div>
     )}
