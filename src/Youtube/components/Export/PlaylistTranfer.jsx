@@ -5,7 +5,7 @@ import { useYoutubeContext } from "../../../contexts/Youtube";
 
 const youtubePlaylistItemEndPoint = "https://youtube.googleapis.com/youtube/v3/playlistItems"
 
-export default function PlaylistTranfer({ selected }) {
+export default function PlaylistTranfer({ selectedPlaylist }) {
 	const history = useHistory();
 	const { accessToken } = useYoutubeContext();
 	const [playlistItemsT, setPlaylistItemsT] = useState([]);
@@ -15,7 +15,7 @@ export default function PlaylistTranfer({ selected }) {
 	const handleLoad = () => {
 		while(!erro && nextPageToken)
 		{
-			axios.get(`${youtubePlaylistItemEndPoint}?part=snippet&playlistId=${selected.id}&maxResults=50&pageToken=${nextPageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
+			axios.get(`${youtubePlaylistItemEndPoint}?part=snippet&playlistId=${selectedPlaylist.id}&maxResults=50&pageToken=${nextPageToken}`, { headers: { Authorization: "Bearer " + accessToken } })
 			.then(response => {
 				setPlaylistItemsT(oldArray => [...oldArray, ...response.data.items]);
 				console.log(response.data.items);
@@ -28,11 +28,11 @@ export default function PlaylistTranfer({ selected }) {
 
 	const handleClick = () => {
 		const playlistToTransfer = ({
-			playlistId: selected.id,
-			playlistName: selected.snippet.title,
-			playlistType: selected.kind,
+			playlistId: selectedPlaylist.id,
+			playlistName: selectedPlaylist.snippet.title,
+			playlistType: selectedPlaylist.kind,
 			playlistOrigin: "YouTube Music",
-			public: selected.status.privacyStatus === 'public',//"public" -> true; "private" || "unlisted" -> false
+			public: selectedPlaylist.status.privacyStatus === 'public',//"public" -> true; "private" || "unlisted" -> false
 			tracks: playlistItemsT.map(item => {
 				return {
 					trackName: item.snippet.title,
