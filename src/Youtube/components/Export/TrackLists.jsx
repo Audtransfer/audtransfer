@@ -33,7 +33,7 @@ export default function TrackLists({ selectedPlaylist }) {
     <>
       {selectedPlaylist && (
         <>
-          <PlaylistTranfer selectedPlaylist={selectedPlaylist} />
+          <PlaylistTranfer selectedPlaylist={selectedPlaylist} playlistItems={playlistItems} />
           <div className="playlist">
             <img className="playlist-image" src={selectedPlaylist.snippet.thumbnails.medium.url} alt="Profile" />
             <div className="playlist-info">
