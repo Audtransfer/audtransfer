@@ -16,7 +16,7 @@ import Spotify from "../Spotify"
 import SpotifyExport from "../Spotify/pages/SpotifyExport";
 import SpotifyImport from "../Spotify/pages/SpotifyImport";
 
-//SPOTIFY
+//YOUTUBE
 import Youtube from "../Youtube"
 import YoutubeExport from "../Youtube/pages/YoutubeExport";
 import YoutubeImport from "../Youtube/pages/YoutubeImport";
