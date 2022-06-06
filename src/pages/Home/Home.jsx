@@ -10,7 +10,7 @@ export default function Home() {
     <div className="home">
       <div className="wrapper">
         <div className="home-intro">
-          <p className="home-intro__title">Transfira playlists de música entre plataformas</p>
+          <p className="home-intro__title">Transfer Playlists between Music Streaming Platforms</p>
 
           <div className="home-intro__player">
             <svg width="441" height="73" viewBox="0 0 441 73" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,15 +27,16 @@ export default function Home() {
           </div>
 
           <p className="home-intro__escolha">
-            Escolha a plataforma de
+            Pick the platform to transfer 
             {
-              dataTransfer === null ? " Origem" : " Destino"
+              dataTransfer === null ? " from" : " to"
             }
+            :
           </p>
 
           <p className="home-intro__escolha-descricao">
             {
-              dataTransfer === null ? "Aqui você escolhe a plataforma onde está a playlist que deseja transferir" : " Aqui você escolhe a plataforma para onde deseja transfrir a playlist"
+              dataTransfer === null ? "You must choose the platform where your playlist is located" : "You must choose the platform to where you want to transfer your playlist"
             }
           </p>
         </div>
