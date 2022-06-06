@@ -33,21 +33,27 @@
     width: 15em
 
   &-info
-    display: flex
-    justify-content: space-evenly
-    margin-top: 60px
+    display: grid
+    margin-top: $spacing-unit * 2
+    background-color: $spotify-color
+    
+    +media-greater($on-laptop)
+      grid-template-columns: repeat(3, 1fr)
 
   &-table
     display: grid
     grid-template-columns: repeat(3, 1fr)
-    grid-gap: 10px
     border: 1px solid gray
-    padding-top: 10px
     margin-top: 0
+    background-color: $background-color
+
+    +media-query($on-laptop)
+      grid-template-columns: repeat(2, 1fr)
 
     &__item
-      padding-bottom: 10px
-      border-bottom: 1px solid white
+      padding: $spacing-unit / 3
+      border: 1px solid grey
+      margin: -1px
 
 .create
   padding: 30px
