@@ -37,6 +37,9 @@ body
   .site-body
     flex: 1 1 auto
 
+    +media-query($on-laptop)
+      padding-bottom: $spacing-unit
+
     +media-greater($content-width)
 
       background:

@@ -25,6 +25,7 @@ export default function TrackLists({ id }) {
             <div className="playlist-info">
               <p className="playlist-info_name">Playlist name: {selectedPlaylist.name}</p>
               <p className="playlist-info_owner">Owner: {selectedPlaylist.owner.display_name}</p>
+              <p className="playlist-info_total">Total: {selectedPlaylist.tracks.total}</p>
             </div>
 
             <ul className="playlist-table seamless">
