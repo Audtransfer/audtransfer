@@ -36,9 +36,10 @@ export default function TrackLists({ selectedPlaylist }) {
           <PlaylistTranfer selectedPlaylist={selectedPlaylist} playlistItems={playlistItems} />
           <div className="playlist">
             <img className="playlist-image" src={selectedPlaylist.snippet.thumbnails.medium.url} alt="Profile" />
-            <div className="playlist-info">
+            <div className="playlist-info youtube">
               <p className="playlist-info_name">Playlist name: {selectedPlaylist.snippet.title}</p>
               <p className="playlist-info_owner">Owner: {selectedPlaylist.snippet.channelTitle}</p>
+              <p className="playlist-info_total">Total: {selectedPlaylist.contentDetails.itemCount}</p>
             </div>
 
             {
