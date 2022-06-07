@@ -34,20 +34,75 @@ export default function YoutubeImport() {
 				{headers: {Authorization: "Bearer " + accessToken }}
 			)
 			.then(async response => {
-				let videosIds = [];
+				console.log(response.data);
+				const urlBase = `${basicEndpoint}/playlistItems?part=snippet`;
 
 				if(dataTransfer.playlistOrigin === "Youtube") {
-					dataTransfer.tracks.map(item => {
-						videosIds.push(item.trackId);
+					dataTransfer.tracks.map(async item => {
+						console.log(response.data.id);
+						console.log(item.trackId);
+						await axios.post(
+							urlBase, 
+							{
+								snippet: {
+									playlistId: response.data.id,
+									resourceId: {
+										kind: "youtube#video",
+										videoId: item.trackId
+									}
+								}
+							},
+							{headers: {Authorization: "Bearer " + accessToken }})
+							.then(response => console.log(response.data))
+							.catch((err) => console.log(err));
 					});
 				}
 				else {
 					dataTransfer.tracks.map(async item => {
-						videosIds.push(await handleSearch(item));
+						let vidID = await handleSearch(item);
+						console.log(response.data.id);
+						console.log(vidID);
+						await axios.post(
+							urlBase, 
+							{
+								snippet: {
+									playlistId: response.data.id,
+									resourceId: {
+										kind: "youtube#video",
+										videoId: vidID
+									}
+								}
+							},
+							{headers: {Authorization: "Bearer " + accessToken }})
+							.then(response => console.log(response.data))
+							.catch((err) => console.log(err));
 					});
 				}
-				console.log(videosIds);
-				await handleAdd(response.data.id, videosIds);
+
+				/*
+				for (let i = 1; i < 6; i++)
+				{
+					console.log(response.data.id);
+					console.log(videosIds[i]);
+					await axios.post(
+						urlBase, 
+						{
+							snippet: {
+								playlistId: response.data.id,
+								resourceId: {
+									kind: "youtube#video",
+									videoId: videosIds[i]
+								}
+							}
+						},
+						{headers: {Authorization: "Bearer " + accessToken }})
+						.then(response => console.log(response.data))
+						.catch((err) => console.log(err));
+				}
+				*/
+		
+				sessionStorage.clear();
+				history.push("/success");
 			})
 			.catch((err) => console.log(err));
 	};
@@ -109,30 +164,24 @@ export default function YoutubeImport() {
 		return data.items[0].id.videoId;
 	};
 	
-	const handleAdd = async (newPlaylistId, videosIds) => {
+	const handleAdd = async (newPlaylistId, vidID) => {
 		const urlBase = `${basicEndpoint}/playlistItems?part=snippet`;
-
-		for(let i = 0; i < videosIds.length; i++)
-		{
-			await axios.post
-			(
-				urlBase, 
-				{
-					snippet: {
-						playlistId: newPlaylistId,
-						resourceId: {
-							kind: "youtube#video",
-							videoId: videosIds[i]
-						}
+		console.log(newPlaylistId);
+		console.log(vidID);
+		const {data} = await axios.post(
+			urlBase, 
+			{
+				snippet: {
+					playlistId: newPlaylistId,
+					resourceId: {
+						kind: "youtube#video",
+						videoId: vidID
 					}
-				},
-				{headers: {Authorization: "Bearer " + accessToken }}
-			).then(response => console.log(response.data))
+				}
+			},
+			{headers: {Authorization: "Bearer " + accessToken }})
+			.then(response => console.log(response.data))
 			.catch((err) => console.log(err));
-		}
-		
-		sessionStorage.clear();
-		history.push("/success");
 	};
   
 	return (
