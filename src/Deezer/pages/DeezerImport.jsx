@@ -29,24 +29,33 @@ export default function DeezerImport() {
 				title: dataTransfer.playlistName
 			}
 		})
-		.then(response => setPlaylistId(response.data.id))
+		.then(async response => { await handleAdd(response.data.id) })
 		.catch(err => console.log(err));
 	}
 	
-	const handleAdd = async () => {
-		//DEGUB TODO
-		console.log(playlistId);
-
+	const handleAdd = async (playlistIdDeezer) => {
 		const tracksPromises = dataTransfer.tracks.map(async item => {
 			let trackId = await handleSearch(item)
 			return trackId
 		})
-		console.log(await Promise.all(tracksPromises));
+		let tracks = (await Promise.all(tracksPromises));
+		handleAddBundle(tracks, playlistIdDeezer)
+	}
 
-		// TODO
-		// The search request is done both in front and back ends,
-		// needs just do some logics, for adding a track in the specific playlist,
-		// in backend just do a simple request, logics stays here
+	const handleAddBundle = (tracks, playlistIdDeezer) => {
+		axios.get(`${deezerBackend}AddTrack`, {
+			params: {
+				access: accessToken,
+				id: playlistIdDeezer,
+				trackId: tracks.toString()
+			}
+		})
+		.then(response => {
+			console.log(response);
+			sessionStorage.clear();
+			history.push("/success");
+		})
+		.catch(err => console.log(err));
 	}
 
 	const handleSearch = async (item) => {
@@ -56,7 +65,8 @@ export default function DeezerImport() {
 				track: item.trackName
 			}
 		});
-		return data.data[0].id || null;
+		if (data.total === 0) return 1;
+		return data.data[0].id;
 	}
 
 	return (
@@ -66,12 +76,6 @@ export default function DeezerImport() {
           <div className="create-buttons">
             <button onClick={handleCreate}>Create the Playlist</button>
           </div>
-
-					{playlistId && (
-						<div className="create-buttons">
-            	<button onClick={handleAdd}>Add tracks Playlist</button>
-          	</div>
-					)}
 
           <h3 className="create-title">Playlist name: {dataTransfer.playlistName}</h3>
           <ul className="playlist-table seamless">
