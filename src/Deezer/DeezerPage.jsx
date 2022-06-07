@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
+import { useDeezerContext } from "../contexts/Deezer"
 import { Link } from "react-router-dom";
-import { useSpotifyContext } from "../contexts/Spotify"
 
-export default function SpotifyPage() {
-	const [importFlag, setImportFlag] = useState(null)
-	const [exportFlag, setExportFlag] = useState(null)
-	const dataTransfer = sessionStorage.getItem('playlisToTransfer')
-	const { setAccessToken } = useSpotifyContext()
-	
-	const handleLogin = () => { window.location = "http://localhost:5000/loginSpotify" }
+export default function DeezerPage() {
+	const { setAccessToken } = useDeezerContext();
+	const [importFlag, setImportFlag] = useState(null);
+	const [exportFlag, setExportFlag] = useState(null);
+	const dataTransfer = sessionStorage.getItem('playlisToTransfer');
 
-	//SPOTIFY ACCESS
+	const handleLogin = () => { window.location = "http://localhost:5000/loginDeezer" }
+
+	//DEEZER ACCESS
 	const { access_token } = getHashParams();
 	function getHashParams() {
 		var hashParams = {};
@@ -34,20 +34,20 @@ export default function SpotifyPage() {
 			setExportFlag(true)
 			setImportFlag(false)
 		}
-
 	}, [access_token, setAccessToken, setExportFlag, setImportFlag, dataTransfer])
+	
 
 	return (
 		<div className="page">
-			{!access_token && (<button onClick={handleLogin}>Login to Spotify</button>)}
+			{!access_token && (<button onClick={handleLogin}>Login to Deezer</button>)}
 			<>
-				{exportFlag && (
-					<Link to="/spotify/export">
+			{exportFlag && (
+					<Link to="/deezer/export">
 						<button>Start Export</button>
 					</Link>
 				)}
 				{importFlag && (
-					<Link to="/spotify/import">
+					<Link to="/deezer/import">
 						<button>Start Import</button>
 					</Link>
 				)}

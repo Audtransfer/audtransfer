@@ -15,7 +15,7 @@ export default function Home() {
           <Link to="/spotify" className="spotify btn">
             Spotify
           </Link>
-          <Link to="#" className="deezer btn">
+          <Link to="/deezer" className="deezer btn">
             Deezer
           </Link>
           <Link to="#" className="ytMusic btn">
