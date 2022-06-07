@@ -23,7 +23,7 @@ export default function Routes() {
 			<Switch>
 				<Route exact path={ROTAS.HOME} component={Home}/>
 				<Route exact path={ROTAS.SUCCESS} component={Success}/>
-
+          
 				<Route exact path={ROTAS.SPOTIFY} component={Spotify}/>
 				<Route exact path={ROTAS.SPOTIFY_EXPORT} component={SpotifyExport}/>
 				<Route exact path={ROTAS.SPOTIFY_IMPORT} component={SpotifyImport}/>

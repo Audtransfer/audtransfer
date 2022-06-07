@@ -1,8 +1,12 @@
-import Routes from "./routes/Routes";
+// Components
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import SpotifyProvider from "./contexts/Spotify";
 import DeezerProvider from "./contexts/Deezer";
+
+// Routes and Contexts Providers
+import Routes from "./routes/Routes";
+import SpotifyProvider from "./contexts/Spotify";
 
 export default function App() {
   return (
