@@ -6,7 +6,6 @@ import DeezerProvider from "./contexts/Deezer";
 
 // Routes and Contexts Providers
 import Routes from "./routes/Routes";
-import SpotifyProvider from "./contexts/Spotify";
 
 export default function App() {
   return (
