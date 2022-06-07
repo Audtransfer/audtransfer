@@ -27,7 +27,7 @@ Our app:
 Apps that we provied transfer:
 
 - Spotify ✅ (Done)
-- Dezzer: 💻 (Working/Coding)
-- YT Music: 💻 (Working/Coding)
+- Deezer: ✅ (Done)
+- YT Music: ✅ (Done)
 - Tidal: 🔒 (Future Work)
 - Amazon Prime Music : 🔒 (Future Work)
