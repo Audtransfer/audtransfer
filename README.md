@@ -2,7 +2,7 @@
 ## _The Ultimate Transfer Tracks Application_
 ##### _The open-source and free option for changing streaming plattaforms and carrying yours tracks_
 
-##### audtransfer.com
+##### [audtransfer.com](audtransfer.com)
 ###### The Undergraduate Thesis of some folks from Santos, SP - Brazil
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/brunomistro/audtransfer/graphs/commit-activity) [![Website cv.lbesson.qc.to](https://img.shields.io/website?down_color=lightgrey&down_message=offilne&up_color=green&up_message=online&url=https%3A%2F%2Faudtransfer.com)](https://audtransfer.com/) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/brunomistro/audtransfer/pulls)
 
@@ -19,14 +19,15 @@ this happens with couples clicks and selects of your playslits, liked tracks or 
 
 ## Roadmap
 Our app:
+ - [Back-End](https://github.com/brunomistro/audtransfer-node): 💻 (Working/Coding)
  - Visual Identity: ✅ (Done)
- - Domain: ✅ (Done)
- - Website Visual: 💻 (Working/Coding)
+ - [Domain](audtransfer.com): ✅ (Done)
+ - Website Visual: ✅ (Done)
 
 Apps that we provied transfer:
 
 - Spotify ✅ (Done)
 - Dezzer: 💻 (Working/Coding)
 - YT Music: 💻 (Working/Coding)
-- Tidal: 🔒 (Future Work, 2022)
-- Amazon Prime Music : 🔒 (Future Work, 2022)
+- Tidal: 🔒 (Future Work)
+- Amazon Prime Music : 🔒 (Future Work)

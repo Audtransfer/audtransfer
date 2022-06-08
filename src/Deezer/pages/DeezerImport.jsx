@@ -3,63 +3,70 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDeezerContext } from "../../contexts/Deezer";
 
-const corsSolution = "https://cors-anywhere.herokuapp.com/";
-const basicEndpoint = "https://api.deezer.com/user";
+const deezerBackend = "http://localhost:5000/deezer"
 
 export default function DeezerImport() {
 	const dataTransfer = JSON.parse(sessionStorage.getItem('playlisToTransfer'));
 	const { accessToken } = useDeezerContext();
 	const [user, setUser] = useState();
+	const [playlistId, setPlaylistId] = useState()
 	const history = useHistory();
 
-	const [playlistId, setPlaylistId] = useState()
-
 	useEffect(() => {
-		//DEGUB
+		//DEGUB TODO
 		console.log(accessToken);
 
-		// TODO URGENT, solve cors problem without using heroku app!!!!
-		axios.get(`${corsSolution}${basicEndpoint}/me?output=json&access_token=${accessToken}`)
+		axios.get(`${deezerBackend}User`, {params: { access: accessToken}})
 		.then(response => setUser(response.data))
 		.catch(err => console.log(err));
-
 	}, [accessToken])
 
 	const handleCreate = () => {
-		// https://api.deezer.com/user/623518687/playlists
-		// ?output=json&request_method=POST&title=teste2&output=json&access_token=fr9crIcqnQkbggGxyW2ctmeXHtY7rcr7pme1JCLPAaV8yB3YMjR
-
-		// console.log(urlCreate);
-
-		let urlCreate = `${corsSolution}${basicEndpoint}/${user.id}/playlists&title=${dataTransfer.playlistName}&output=json&access_token=${accessToken}`;
-
-		axios.post(urlCreate)
-		.then(response => setPlaylistId(response.data))
-		.catch((err) => console.log(err));
+		axios.get(`${deezerBackend}CreatePlaylist`, {
+			params: {
+				access: accessToken,
+				id: user.id,
+				title: dataTransfer.playlistName
+			}
+		})
+		.then(async response => { await handleAdd(response.data.id) })
+		.catch(err => console.log(err));
 	}
 	
-	const handleAdd = async () => {
+	const handleAdd = async (playlistIdDeezer) => {
+		const tracksPromises = dataTransfer.tracks.map(async item => {
+			let trackId = await handleSearch(item)
+			return trackId
+		})
+		let tracks = (await Promise.all(tracksPromises));
+		handleAddBundle(tracks, playlistIdDeezer)
+	}
 
-		let tracksUrl = "";
-
-		if(dataTransfer.playlistOrigin === "Deezer") {
-			console.log("veio do deezer, se vira");
-		}
-		else {
-			const tracksPromises = dataTransfer.tracks.map(async item => {
-				const trackId = await handleSearch(item);
-				return { trackId }
-			})
-			console.log(await Promise.all(tracksPromises));
-		}
-
+	const handleAddBundle = (tracks, playlistIdDeezer) => {
+		axios.get(`${deezerBackend}AddTrack`, {
+			params: {
+				access: accessToken,
+				id: playlistIdDeezer,
+				trackId: tracks.toString()
+			}
+		})
+		.then(response => {
+			console.log(response);
+			sessionStorage.clear();
+			history.push("/success");
+		})
+		.catch(err => console.log(err));
 	}
 
 	const handleSearch = async (item) => {
-		const urlSearch = `${corsSolution}https://api.deezer.com/search?q=track:"${item.trackName}"artist:"${item.artistName}"&output=json&access_token=${accessToken}`
-		const { data } = await axios.get(urlSearch);
-		console.log(data);
-		return data.data[0].id
+		const { data } = await axios.get(`${deezerBackend}SearchTrack`, {
+			params: {
+				artist: item.artistName,
+				track: item.trackName
+			}
+		});
+		if (data.total === 0) return 1;
+		return data.data[0].id;
 	}
 
 	return (
@@ -69,12 +76,6 @@ export default function DeezerImport() {
           <div className="create-buttons">
             <button onClick={handleCreate}>Create the Playlist</button>
           </div>
-
-					{playlistId && (
-						<div className="create-buttons">
-            	<button onClick={handleAdd}>Add tracks Playlist</button>
-          	</div>
-					)}
 
           <h3 className="create-title">Playlist name: {dataTransfer.playlistName}</h3>
           <ul className="playlist-table seamless">
