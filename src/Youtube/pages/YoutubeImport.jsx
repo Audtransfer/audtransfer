@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useYoutubeContext } from "../../contexts/Youtube";
 
@@ -8,14 +7,7 @@ const basicEndpoint = "https://youtube.googleapis.com/youtube/v3";
 export default function YoutubeImport() {
 	const dataTransfer = JSON.parse(sessionStorage.getItem('playlisToTransfer'));
 	const { accessToken } = useYoutubeContext();
-	const [user, setUser] = useState();
 	const history = useHistory();
-
-	useEffect(() => {
-	  axios.get(`${basicEndpoint}/channels?part=snippet&mine=true`, { headers: { Authorization: "Bearer " + accessToken }})
-		  .then(response => setUser(response.data.items[0]))
-		  .catch(err => console.log(err));
-	}, [accessToken]);
 
 	const handleCreate = () => {
 		let today = new Date();
@@ -35,12 +27,16 @@ export default function YoutubeImport() {
 			)
 			.then(async response => {
 				console.log(response.data);
+				console.log(new Date());
+				await new Promise(r => setTimeout(r, 10000));
 				const urlBase = `${basicEndpoint}/playlistItems?part=snippet`;
 
-				if(dataTransfer.playlistOrigin === "Youtube") {
+				if(dataTransfer.playlistOrigin === "YouTube") {
+					console.log("same origin");
 					dataTransfer.tracks.map(async item => {
-						console.log(response.data.id);
+						console.log(new Date());
 						console.log(item.trackId);
+						await new Promise(r => setTimeout(r, 3000));
 						await axios.post(
 							urlBase, 
 							{
@@ -58,10 +54,12 @@ export default function YoutubeImport() {
 					});
 				}
 				else {
+					console.log("foreign origin");
 					dataTransfer.tracks.map(async item => {
 						let vidID = await handleSearch(item);
-						console.log(response.data.id);
+						console.log(new Date());
 						console.log(vidID);
+						await new Promise(r => setTimeout(r, 3000));
 						await axios.post(
 							urlBase, 
 							{
@@ -78,28 +76,6 @@ export default function YoutubeImport() {
 							.catch((err) => console.log(err));
 					});
 				}
-
-				/*
-				for (let i = 1; i < 6; i++)
-				{
-					console.log(response.data.id);
-					console.log(videosIds[i]);
-					await axios.post(
-						urlBase, 
-						{
-							snippet: {
-								playlistId: response.data.id,
-								resourceId: {
-									kind: "youtube#video",
-									videoId: videosIds[i]
-								}
-							}
-						},
-						{headers: {Authorization: "Bearer " + accessToken }})
-						.then(response => console.log(response.data))
-						.catch((err) => console.log(err));
-				}
-				*/
 		
 				sessionStorage.clear();
 				history.push("/success");
@@ -162,26 +138,6 @@ export default function YoutubeImport() {
                 ).id.videoId;
 
 		return data.items[0].id.videoId;
-	};
-	
-	const handleAdd = async (newPlaylistId, vidID) => {
-		const urlBase = `${basicEndpoint}/playlistItems?part=snippet`;
-		console.log(newPlaylistId);
-		console.log(vidID);
-		const {data} = await axios.post(
-			urlBase, 
-			{
-				snippet: {
-					playlistId: newPlaylistId,
-					resourceId: {
-						kind: "youtube#video",
-						videoId: vidID
-					}
-				}
-			},
-			{headers: {Authorization: "Bearer " + accessToken }})
-			.then(response => console.log(response.data))
-			.catch((err) => console.log(err));
 	};
   
 	return (

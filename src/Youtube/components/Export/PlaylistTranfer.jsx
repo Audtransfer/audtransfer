@@ -8,7 +8,7 @@ export default function PlaylistTranfer({ selectedPlaylist, playlistItems }) {
 			playlistId: selectedPlaylist.id,
 			playlistName: selectedPlaylist.snippet.title,
 			playlistType: selectedPlaylist.kind,
-			playlistOrigin: "YouTube Music",
+			playlistOrigin: "YouTube",
 			public: selectedPlaylist.status.privacyStatus === 'public',//"public" -> true; "private" || "unlisted" -> false
 			tracks: playlistItems.map(item => {
 				return {
