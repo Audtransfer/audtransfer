@@ -9,7 +9,6 @@ export default function DeezerImport() {
 	const dataTransfer = JSON.parse(sessionStorage.getItem('playlisToTransfer'));
 	const { accessToken } = useDeezerContext();
 	const [user, setUser] = useState();
-	const [playlistId, setPlaylistId] = useState()
 	const history = useHistory();
 
 	useEffect(() => {
