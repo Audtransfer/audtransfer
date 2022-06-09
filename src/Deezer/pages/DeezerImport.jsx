@@ -51,8 +51,8 @@ export default function DeezerImport() {
 		})
 		.then(response => {
 			console.log(response);
-			sessionStorage.clear();
-			history.push("/success");
+			// sessionStorage.clear();
+			// history.push("/success");
 		})
 		.catch(err => console.log(err));
 	}
@@ -60,8 +60,8 @@ export default function DeezerImport() {
 	const handleSearch = async (item) => {
 		const { data } = await axios.get(`${deezerBackend}SearchTrack`, {
 			params: {
-				artist: (item.artistName.normalize('NFD').replace(/[\u0300-\u036f]/g, "")),
-				track: (item.trackName.normalize('NFD').replace(/[\u0300-\u036f]/g, ""))
+				artist: (item.artistName.normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace('$', 'S').replace('&', '')),
+				track: (item.trackName.normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace('$', 'S').replace('&', ''))
 			}
 		});
 		if (data.total === 0) return 1;
