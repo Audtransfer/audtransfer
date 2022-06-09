@@ -60,8 +60,8 @@ export default function DeezerImport() {
 	const handleSearch = async (item) => {
 		const { data } = await axios.get(`${deezerBackend}SearchTrack`, {
 			params: {
-				artist: item.artistName,
-				track: item.trackName
+				artist: (item.artistName.normalize('NFD').replace(/[\u0300-\u036f]/g, "")),
+				track: (item.trackName.normalize('NFD').replace(/[\u0300-\u036f]/g, ""))
 			}
 		});
 		if (data.total === 0) return 1;
