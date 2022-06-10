@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useHistory } from "react-router";
 import { useYoutubeContext } from "../../contexts/Youtube";
-import { useState } from "react";
 
 const basicEndpoint = "https://youtube.googleapis.com/youtube/v3";
 
 export default function YoutubeImport() {
   const dataTransfer = JSON.parse(sessionStorage.getItem("playlisToTransfer"));
   const { accessToken } = useYoutubeContext();
+	const history = useHistory();
 
   const handleCreate = () => {
     let today = new Date();
@@ -52,10 +52,8 @@ export default function YoutubeImport() {
 			let tracksPosted = (await Promise.all(post))
 			console.log(tracksPosted);
 
-			/*
 			sessionStorage.clear();
 			history.push("/success");
-			*/
 		})
 		.catch((err) => console.log(err));
   };
