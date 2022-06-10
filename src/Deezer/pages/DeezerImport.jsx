@@ -51,8 +51,8 @@ export default function DeezerImport() {
 		})
 		.then(response => {
 			console.log(response);
-			// sessionStorage.clear();
-			// history.push("/success");
+			sessionStorage.clear();
+			history.push("/success");
 		})
 		.catch(err => console.log(err));
 	}
