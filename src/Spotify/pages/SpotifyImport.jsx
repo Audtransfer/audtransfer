@@ -59,7 +59,7 @@ export default function SpotifyImport() {
 
 	const handleSearch = async (item) => {
 		const { data } = await axios.get(
-			`${basicEndpoint}/search?q=track%3A${item.trackName}%20artist:%3A${item.artistName}&type=track`,
+			`${basicEndpoint}/search?q=track:${item.trackName}%20artist:${item.artistName}&type=track`,
 			{headers: {Authorization: "Bearer " + accessToken}}
 		);
 		return data.tracks.items[0].id;

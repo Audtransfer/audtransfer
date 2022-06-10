@@ -1,29 +1,70 @@
 .home
   text-align: center
 
+  &-intro
+    margin-bottom: $spacing-unit * 2
+
+    &__title
+      text-transform: uppercase
+      letter-spacing: 1px
+      line-height: 42px
+      font-size: 1.8rem
+      font-weight: 700
+      margin-top: $spacing-unit
+
+    &__player
+      margin: $spacing-unit 0
+
+      +media-query($on-laptop)
+        svg
+          width: 100%
+          height: 100%
+
+    &__escolha
+      font-size: 1.8rem
+      font-weight: 700
+      line-height: 42px
+
+      &-descricao
+        line-height: 25px
+        font-size: 1.113rem
+        max-width: 20em
+        margin: auto
+        margin-top: $spacing-unit
+
   .options
-    display: flex
-    flex-direction: column
-    align-items: center
+    display: grid
+    grid-gap: 15px
+    max-width: 40em
+    margin: auto
+
+    +media-greater($on-laptop)
+      grid-template-columns: repeat(3, 1fr)
 
     a
       text-decoration: none
       color: #fff
-      margin-top: $spacing-unit / 3
-      padding: $spacing-unit / 3 35px
-      min-width: 9em
+      background-color: transparent
+      border-width: $spacing-unit / 6
+      border-radius: $spacing-unit / 2
+      display: grid
+      justify-content: center
+      align-items: center 
 
-      &:hover
-        color: black
-        background-color: #b19cd9
-        transition: .5s
+      +media-query($on-laptop)
+        min-height: 5.625rem
 
     .spotify
-      background-color: #1DB954
+
+      &:hover, &:focus, &:active
+        background-color: $spotify-color
 
     .deezer
-      background-color: blue
+
+      &:hover, &:focus, &:active
+        background-color: $deezer-color
 
     .ytMusic
-      background-color: red
-      filter: opacity(0.5)
+
+      &:hover, &:focus, &:active
+        background-color: $youtube-color

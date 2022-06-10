@@ -12,7 +12,7 @@ export default function Tracklist({ id }) {
 		axios.get(`${deezerBackend}AnyPlaylist`, {
 			params: { id: id }
 		})
-		.then(response =>  setSelectedPlaylist(response.data))
+		.then(response => setSelectedPlaylist(response.data))
 		.catch(err => { console.log(err) });
 	}, [id])
 
@@ -23,9 +23,10 @@ export default function Tracklist({ id }) {
 				<PlaylistTransfer selected={selectedPlaylist} />
 				<div className="playlist">
 					<img className="playlist-image" src={selectedPlaylist.picture} alt="Profile" />
-					<div className="playlist-info">
+					<div className="playlist-info deezer">
 						<p className="playlist-info_name">Playlist name: {selectedPlaylist.title}</p>
 						<p className="playlist-info_owner">Owner: {selectedPlaylist.creator.name}</p>
+            <p className="playlist-info_total">Total: {selectedPlaylist.tracks.data.length}</p>
 					</div>
 
 					<ul className="playlist-table seamless">

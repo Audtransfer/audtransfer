@@ -37,6 +37,17 @@ body
   .site-body
     flex: 1 1 auto
 
+    +media-query($on-laptop)
+      padding-bottom: $spacing-unit
+
+    +media-greater($content-width)
+
+      background:
+        image: url('../assets/fundo-esquerdo.png'), url('../assets/fundo-direito.png')
+        repeat: no-repeat
+        size: 16rem
+        position: bottom left, bottom right
+
 img
   max-width: 100%
   vertical-align: middle

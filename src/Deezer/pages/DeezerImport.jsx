@@ -9,7 +9,6 @@ export default function DeezerImport() {
 	const dataTransfer = JSON.parse(sessionStorage.getItem('playlisToTransfer'));
 	const { accessToken } = useDeezerContext();
 	const [user, setUser] = useState();
-	const [playlistId, setPlaylistId] = useState()
 	const history = useHistory();
 
 	useEffect(() => {
@@ -61,8 +60,8 @@ export default function DeezerImport() {
 	const handleSearch = async (item) => {
 		const { data } = await axios.get(`${deezerBackend}SearchTrack`, {
 			params: {
-				artist: item.artistName,
-				track: item.trackName
+				artist: (item.artistName.normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace('$', 'S').replace('&', '')),
+				track: (item.trackName.normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace('$', 'S').replace('&', ''))
 			}
 		});
 		if (data.total === 0) return 1;
