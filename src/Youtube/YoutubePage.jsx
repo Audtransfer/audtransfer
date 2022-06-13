@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import { useSpotifyContext } from "../contexts/Spotify"
+import { useYoutubeContext } from "../contexts/Youtube"
 import { useHistory } from "react-router";
 
-export default function SpotifyPage() {
-	const dataTransfer = sessionStorage.getItem('playlisToTransfer')
-	const { setAccessToken } = useSpotifyContext()
+export default function YoutubePage() {
+	const dataTransfer = sessionStorage.getItem('playlisToTransfer');
+	const { setAccessToken } = useYoutubeContext();
 	const history = useHistory();
 	
-	const handleLogin = () => { window.location = "http://localhost:5000/loginSpotify" }
+	const handleLogin = () => { window.location = "http://localhost:5000/loginYoutube" }
 
 	//SPOTIFY ACCESS
 	const { access_token } = getHashParams();
@@ -22,8 +22,8 @@ export default function SpotifyPage() {
 		if(!access_token) handleLogin()
 		setAccessToken(access_token)
 
-		if(dataTransfer) { history.push("/spotify/import") }
-		else { history.push("/spotify/export") }
+		if(dataTransfer) { history.push("/youtube/import") }
+		else { history.push("/youtube/export") }
 	}, [access_token, setAccessToken, dataTransfer, history])
 
 	return (<div className="page"></div>)

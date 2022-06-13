@@ -1,2 +1,2 @@
-import Spotify from './SpotifyPage'
-export default Spotify
+import Spotify from './SpotifyPage';
+export default Spotify;

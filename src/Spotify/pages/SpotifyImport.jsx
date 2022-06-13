@@ -19,7 +19,7 @@ export default function SpotifyImport() {
 
   const handleCreate = () => {
     let today = new Date();
-		today = today.toLocaleString("pt-BR")
+		today = today.toLocaleString("pt-BR");
     axios.post(
 			`${basicEndpoint}/users/${user.id}/playlists`,
 			{
@@ -27,41 +27,54 @@ export default function SpotifyImport() {
 				description: `Audtransfer created this at: ${today}`,
 				public: true,
 			},
-			{ headers: { Authorization: "Bearer " + accessToken } }
+			{headers: {Authorization: "Bearer " + accessToken }}
 		)
-		.then((response) => {
+		.then(async response => {
 			let tracksUrl = "";
-			const urlBase = `${basicEndpoint}/playlists/${response.data.id}/tracks?uris=`;
-			let urlForPost = "";
 
-			if(dataTransfer.playlistOrigin === "Spotify"){
-				dataTransfer.tracks.map(item => {
-					return (tracksUrl += "spotify%3Atrack%3A" + item.trackId + "%2C");
-				});
+			if(dataTransfer.playlistOrigin === "Spotify") {
+				tracksUrl = buildTrack(dataTransfer.tracks)
 			}
 			else {
-				dataTransfer.tracks.map(item => {
-					axios.get(
-						`${basicEndpoint}/search?q=track%3A${item.trackName}%20artist:%3A${item.artistName}&type=track`,
-						{ headers:{Authorization: "Bearer " + accessToken} }
-					)
-					.then(response => item.trackId = response.data.tracks.items[0].id)
-					.catch(err => console.log(err));
-
-					return (tracksUrl += "spotify%3Atrack%3A" + item.trackId + "%2C");
+				const trackPromises = dataTransfer.tracks.map(async item => {
+					const trackId = await handleSearch(item);
+					return { trackId }
 				})
+				const trackResponse = await Promise.all(trackPromises)
+				tracksUrl = buildTrack(trackResponse)
 			}
-			
-			urlForPost = `${urlBase}${tracksUrl}`;
 
-			axios.post(urlForPost, null, {headers: { Authorization: "Bearer " + accessToken }})
-			.then(() => {
-				sessionStorage.clear();
-				history.push("/success");
-			});
+			handleAdd(response.data.id, tracksUrl);
 		})
 		.catch((err) => console.log(err));
   };
+
+	const buildTrack = (tracks) => {
+		let list = "";
+		tracks.forEach(item => {
+			list += "spotify%3Atrack%3A" + item.trackId + "%2C";
+		});
+		return list
+	}
+
+	const handleSearch = async (item) => {
+		const { data } = await axios.get(
+			`${basicEndpoint}/search?q=track:${item.trackName}%20artist:${item.artistName}&type=track`,
+			{headers: {Authorization: "Bearer " + accessToken}}
+		);
+		return data.tracks.items[0].id;
+	}
+	
+	const handleAdd = (newPlaylistId, tracksUrl) => {
+		const urlBase = `${basicEndpoint}/playlists/${newPlaylistId}/tracks?uris=`;
+		let urlForPost = `${urlBase}${tracksUrl}`;
+
+		axios.post(urlForPost, null, {headers: { Authorization: "Bearer " + accessToken }})
+		.then(() => {
+			sessionStorage.clear();
+			history.push("/success");
+		});
+	}
 
   return (
     <div className="create wrapper">

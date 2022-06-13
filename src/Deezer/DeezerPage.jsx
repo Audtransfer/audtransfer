@@ -1,15 +1,15 @@
 import { useEffect } from "react";
-import { useSpotifyContext } from "../contexts/Spotify"
+import { useDeezerContext } from "../contexts/Deezer";
 import { useHistory } from "react-router";
 
-export default function SpotifyPage() {
-	const dataTransfer = sessionStorage.getItem('playlisToTransfer')
-	const { setAccessToken } = useSpotifyContext()
+export default function DeezerPage() {
+	const dataTransfer = sessionStorage.getItem('playlisToTransfer');
+	const { setAccessToken } = useDeezerContext();
 	const history = useHistory();
-	
-	const handleLogin = () => { window.location = "http://localhost:5000/loginSpotify" }
 
-	//SPOTIFY ACCESS
+	const handleLogin = () => { window.location = "http://localhost:5000/loginDeezer" }
+
+	//DEEZER ACCESS
 	const { access_token } = getHashParams();
 	function getHashParams() {
 		var hashParams = {};
@@ -22,8 +22,8 @@ export default function SpotifyPage() {
 		if(!access_token) handleLogin()
 		setAccessToken(access_token)
 
-		if(dataTransfer) { history.push("/spotify/import") }
-		else { history.push("/spotify/export") }
+		if(dataTransfer) { history.push("/deezer/import") }
+		else { history.push("/deezer/export") }
 	}, [access_token, setAccessToken, dataTransfer, history])
 
 	return (<div className="page"></div>)
