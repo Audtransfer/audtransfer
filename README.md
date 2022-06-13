@@ -19,7 +19,7 @@ This happens with a couple clicks and selects of your playlists, liked tracks or
 
 ## Roadmap
 Our app:
- - [Back-End](https://github.com/brunomistro/audtransfer-node): 💻 (Working/Coding)
+ - [Back-End](https://github.com/brunomistro/audtransfer-node): ✅ (Done)
  - Visual Identity: ✅ (Done)
  - [Domain](audtransfer.com): ✅ (Done)
  - Website Visual: ✅ (Done)
@@ -29,5 +29,6 @@ Supported platforms:
 - Spotify ✅ (Done)
 - Deezer: ✅ (Done)
 - YT Music: ✅ (Done)
+- Apple Music: 🔒 (Future Work)
 - Tidal: 🔒 (Future Work)
 - Amazon Prime Music : 🔒 (Future Work)
